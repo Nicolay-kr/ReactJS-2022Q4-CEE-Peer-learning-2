@@ -4,42 +4,74 @@ import styles from '../styles/GenreToggle.module.css';
 class GenreToggle extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { counter: 0 };
-    this.addOne = this.addOne.bind(this);
-    this.removeOne = this.removeOne.bind(this);
+    this.state = { activeGenre: 0, activeGenreElement: null };
+    this.genresRef = React.createRef();
+    this.setActiveGenre = this.setActiveGenre.bind(this);
   }
-  componentDidMount() {}
-
-  componentWillUnmount() {}
-
-  addOne() {
+  componentDidMount() {
     this.setState((state) => ({
-      counter: state.counter + 1,
+      activeGenre: 0,
+      activeGenreElement:
+        this.genresRef.current.children[
+          this.state.activeGenre
+        ].getBoundingClientRect(),
     }));
   }
 
-  removeOne() {
+  componentWillUnmount() {
+  }
+  componentDidUpdate(prevProps) {
+    // console.log(this.state.activeGenreElement);
+  }
+
+  setActiveGenre(e) {
+    const id = e.target.id;
     this.setState((state) => ({
-      counter: state.counter - 1,
+      activeGenre: id,
+      activeGenreElement:
+        this.genresRef.current.children[id].getBoundingClientRect(),
     }));
   }
 
   render() {
+    const genres = this.props.genres;
+    const activeGenreElement = this.state.activeGenreElement;
+
     return (
       <div className={styles.conteiner}>
-        <h1 className={styles.taskTitle}>3. GenreToggle with React.PureComponent</h1>
+        <h1 className={styles.taskTitle}>
+          3. GenreToggle with React.PureComponent
+        </h1>
+
         <div className={styles.content}>
           <div className={styles.firstRow}>
-            <span>all</span>
-            <span>Documentary</span>
-            <span>Comedy</span>
-            <span>Horror</span>
-            <span>crime</span>
+            <div className={styles.genres} ref={this.genresRef}>
+              {genres.map((gener, index) => (
+                <span id={index} key={index} onClick={this.setActiveGenre}>
+                  {gener}
+                </span>
+              ))}
+            </div>
 
-            <span>Sort by</span>
-            <span>release date</span>
+            <div className={styles.ordering}>
+              <span>Sort by</span>
+              <span>release date</span>
+            </div>
           </div>
+
           <div className={styles.secondRow}>
+            <div
+              className={styles.activeLine}
+              style={{
+                position:'absolute',
+                width: activeGenreElement
+                  ? `${activeGenreElement.width}px`
+                  : '100px',
+                left: activeGenreElement
+                  ? `${activeGenreElement.x-100}px`
+                  : '100px',
+              }}
+            ></div>
             <div className={styles.line}>
               <span className={styles.firstline}></span>
               <span className={styles.secondline}></span>

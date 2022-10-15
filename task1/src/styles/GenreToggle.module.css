@@ -13,11 +13,11 @@
   margin-top: 60px;
 }
 
+/* 
 .firstRow,
 .secondRow {
   display: grid;
   grid-template-columns: repeat(10, auto);
-  /* row-gap: ; */
   column-gap: 30px;
   font-family: Montserrat;
   font-size: 16px;
@@ -25,7 +25,25 @@
   text-align: left;
   text-transform: uppercase;
   cursor: pointer;
+} 
+*/
 
+.genres,
+.ordering {
+  display: flex;
+  gap: 30px;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.firstRow,
+.secondRow {
+  display: flex;
+  justify-content: space-between;
 }
 
 .line {
@@ -48,4 +66,14 @@
 .thirdLine {
   height: 1px;
   background: #080707;
+}
+
+.secondRow{
+  position: relative;
+}
+
+.activeLine{
+  height: 100%;
+  background: #F65261;
+  transition: 0.3s;
 }

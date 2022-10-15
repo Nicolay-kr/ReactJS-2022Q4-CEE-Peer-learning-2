@@ -5,10 +5,12 @@ import GenreToggle from './components/GenreToggle';
 
 function App() {
   return (
-    <div className="App">
+    <div className='App'>
       <Counter></Counter>
       <Search></Search>
-      <GenreToggle></GenreToggle>
+      <GenreToggle
+        genres={['all', 'Documentary', 'Comedy', 'Horror', 'crime']}
+      ></GenreToggle>
     </div>
   );
 }
