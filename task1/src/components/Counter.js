@@ -7,9 +7,6 @@ class Counter extends React.Component {
     this.addOne = this.addOne.bind(this);
     this.removeOne = this.removeOne.bind(this);
   }
-  componentDidMount() {}
-
-  componentWillUnmount() {}
 
   addOne() {
     this.setState((state) => ({

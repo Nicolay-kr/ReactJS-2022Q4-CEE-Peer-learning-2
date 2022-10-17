@@ -10,18 +10,11 @@ class GenreToggle extends React.PureComponent {
   }
   componentDidMount() {
     this.setState((state) => ({
-      activeGenre: 0,
       activeGenreElement:
         this.genresRef.current.children[
           this.state.activeGenre
         ].getBoundingClientRect(),
     }));
-  }
-
-  componentWillUnmount() {
-  }
-  componentDidUpdate(prevProps) {
-    // console.log(this.state.activeGenreElement);
   }
 
   setActiveGenre(e) {
@@ -47,7 +40,7 @@ class GenreToggle extends React.PureComponent {
           <div className={styles.firstRow}>
             <div className={styles.genres} ref={this.genresRef}>
               {genres.map((gener, index) => (
-                <span id={index} key={index} onClick={this.setActiveGenre}>
+                <span id={index} key={gener} onClick={this.setActiveGenre}>
                   {gener}
                 </span>
               ))}
