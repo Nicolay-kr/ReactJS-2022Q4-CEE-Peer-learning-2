@@ -8,9 +8,7 @@ function App() {
     <div className='App'>
       <Counter></Counter>
       <Search></Search>
-      <GenreToggle
-        genres={['all', 'Documentary', 'Comedy', 'Horror', 'crime']}
-      ></GenreToggle>
+      <GenreToggle></GenreToggle>
     </div>
   );
 }

@@ -77,4 +77,8 @@ class GenreToggle extends React.PureComponent {
   }
 }
 
+GenreToggle.defaultProps = {
+  genres:['all', 'Documentary', 'Comedy', 'Horror', 'crime']
+};
+
 export default GenreToggle;
