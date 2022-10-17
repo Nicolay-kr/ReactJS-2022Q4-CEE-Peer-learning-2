@@ -1,0 +1,79 @@
+.taskTitle {
+  text-align: left;
+}
+
+.conteiner {
+  width: 100%;
+}
+
+.content {
+  display: grid;
+  grid-template-rows: auto auto;
+  row-gap: 30px;
+  margin-top: 60px;
+}
+
+/* 
+.firstRow,
+.secondRow {
+  display: grid;
+  grid-template-columns: repeat(10, auto);
+  column-gap: 30px;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+} 
+*/
+
+.genres,
+.ordering {
+  display: flex;
+  gap: 30px;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.firstRow,
+.secondRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.line {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  grid-column: 1 / 11;
+  /* background-color: ; */
+}
+
+.firstline {
+  height: 2px;
+  background: #424242;
+}
+
+.secondline {
+  height: 1px;
+}
+
+.thirdLine {
+  height: 1px;
+  background: #080707;
+}
+
+.secondRow{
+  position: relative;
+}
+
+.activeLine{
+  height: 100%;
+  background: #F65261;
+  transition: 0.3s;
+}

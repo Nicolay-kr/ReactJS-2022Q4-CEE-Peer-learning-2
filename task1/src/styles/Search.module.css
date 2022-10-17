@@ -1,0 +1,56 @@
+.conteiner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+}
+.taskTitle{
+  text-align: left;
+}
+
+.title {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 40px;
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+.formConteiner {
+  display: flex;
+  gap: 14px;
+}
+
+.inputField {
+  padding: 20px;
+  background: rgba(50, 50, 50, 0.8);
+  mix-blend-mode: normal;
+  opacity: 0.7;
+  border-radius: 4px;
+  width: 713px;
+  height: 57px;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0px;
+  text-align: left;
+}
+
+.button {
+  padding: 12px 74px;
+  background: #F65261;
+  border-radius: 4px;
+  width: 233px;
+  height: 57px;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  cursor: pointer;
+}
