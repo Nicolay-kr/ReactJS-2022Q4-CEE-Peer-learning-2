@@ -6,4 +6,4 @@ before running add to root derictory next files:
   MODE=PRODUCTION
 
 .env.development
-  MODE=PRODUCTION
+  MODE=DEVELOPMENT
