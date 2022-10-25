@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --hot",
-    "dev": "webpack-dev-server  --env development --mode development --open --hot",
+    "start": "webpack-dev-server --env development --mode development --open --hot",
     "build": "webpack --mode production",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx,json}",
     "lint:fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx,json}'",
