@@ -9,7 +9,7 @@ export interface IMovieCardProps {
   image: string;
 }
 
-export function MovieCard({ id, title, year, genres, image }: IMovieCardProps) {
+export function MovieCard({ id, title, year, genres, image }: IMovieCardProps):JSX.Element {
   return (
     <div className={styles.conteiner}>
       <img src={image} alt='movie poster' />

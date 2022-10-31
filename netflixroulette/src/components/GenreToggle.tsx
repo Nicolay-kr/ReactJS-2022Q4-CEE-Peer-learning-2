@@ -16,7 +16,10 @@ type GenreToggleState = {
   activeGenreElement: any; // like this
 };
 
-class GenreToggle extends React.PureComponent<GenreToggleProps, GenreToggleState> {
+class GenreToggle extends React.PureComponent<
+  GenreToggleProps,
+  GenreToggleState
+> {
   constructor(props: GenreToggleProps) {
     super(props);
     this.setActiveGenre = this.setActiveGenre.bind(this);
@@ -26,6 +29,7 @@ class GenreToggle extends React.PureComponent<GenreToggleProps, GenreToggleState
   static genres = { genres: {} };
 
   private genresRef = React.createRef<HTMLDivElement>();
+  private genresConteinerRef = React.createRef<HTMLDivElement>();
 
   componentDidMount() {
     this.setState(
@@ -39,7 +43,7 @@ class GenreToggle extends React.PureComponent<GenreToggleProps, GenreToggleState
     );
   }
 
-  setActiveGenre(e:any) {
+  setActiveGenre(e: any) {
     const id = e.target.id;
     this.setState((state) => ({
       activeGenre: id,
@@ -49,6 +53,10 @@ class GenreToggle extends React.PureComponent<GenreToggleProps, GenreToggleState
   }
 
   render() {
+    const genresConteinerLeft =
+      this.genresConteinerRef?.current?.getBoundingClientRect().left
+        ? this.genresConteinerRef.current.getBoundingClientRect().left
+        : 0;
     const { genres = ['all', 'Documentary', 'Comedy', 'Horror', 'crime'] } =
       this.props;
     const activeGenreElement = this.state.activeGenreElement;
@@ -56,7 +64,7 @@ class GenreToggle extends React.PureComponent<GenreToggleProps, GenreToggleState
     return (
       <main className={styles.conteiner}>
         <div className={styles.genresConteiner}>
-          <div className={styles.firstRow}>
+          <div className={styles.firstRow} ref={this.genresConteinerRef}>
             <div className={styles.genres} ref={this.genresRef}>
               {genres.map((gener, index) => (
                 <span id={`${index}`} key={gener} onClick={this.setActiveGenre}>
@@ -73,7 +81,12 @@ class GenreToggle extends React.PureComponent<GenreToggleProps, GenreToggleState
             </div>
           </div>
 
-          <div className={styles.secondRow}>
+          <div
+            className={styles.secondRow}
+            style={{
+              position: 'relative',
+            }}
+          >
             <div
               className={styles.activeLine}
               style={{
@@ -82,7 +95,7 @@ class GenreToggle extends React.PureComponent<GenreToggleProps, GenreToggleState
                   ? `${activeGenreElement.width}px`
                   : '100px',
                 left: activeGenreElement
-                  ? `${activeGenreElement.x - 60}px`
+                  ? `${activeGenreElement.x - genresConteinerLeft}px`
                   : '100px',
               }}
             ></div>
