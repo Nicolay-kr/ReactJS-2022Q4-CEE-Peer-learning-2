@@ -9,6 +9,10 @@ export interface IMovieCardProps {
   year: string;
   genres: string[];
   image: string;
+  click: any;
+  description: string;
+  score: string;
+  time: string;
 }
 
 export function MovieCard({
@@ -17,6 +21,7 @@ export function MovieCard({
   year,
   genres,
   image,
+  click,
 }: IMovieCardProps): JSX.Element {
   const [burgerMenuIsOpen, setIsBurgerMenuIsOpen] = React.useState(false);
 
@@ -26,6 +31,10 @@ export function MovieCard({
 
   const handleClickBurgerClose = () => {
     setIsBurgerMenuIsOpen(false);
+  };
+
+  const handleClick = () => {
+    click(id);
   };
 
   return (
@@ -48,12 +57,14 @@ export function MovieCard({
           <p>Delete</p>
         </div>
       ) : null}
-      <img src={image} alt='movie poster' />
-      <div className={styles.titleConteiner}>
-        <p className={styles.title}>{title}</p>
-        <div className={styles.year}>{year}</div>
+      <div className={styles.content} onClick={handleClick}>
+        <img src={image} alt='movie poster' />
+        <div className={styles.titleConteiner}>
+          <p className={styles.title}>{title}</p>
+          <div className={styles.year}>{year}</div>
+        </div>
+        <p className={styles.genres}>{genres.join(', ')}</p>
       </div>
-      <p className={styles.genres}>{genres.join(', ')}</p>
     </div>
   );
 }

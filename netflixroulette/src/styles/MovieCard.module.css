@@ -1,4 +1,8 @@
 .conteiner {
+  position: relative;
+}
+
+.content {
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -49,6 +53,8 @@
   position: absolute;
   top: 12px;
   right: 12px;
+  z-index: 2;
+  cursor: pointer;
 }
 
 .burgerMenu {
@@ -69,6 +75,7 @@
   margin: 0;
   font-size: 16px;
   font-weight: 500;
+  cursor: pointer;
 
 }
 
