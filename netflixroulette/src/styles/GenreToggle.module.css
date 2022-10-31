@@ -1,0 +1,96 @@
+.taskTitle {
+  text-align: left;
+}
+
+.conteiner {
+  width: 100%;
+  margin-top: 10px;
+  padding: 20px 60px;
+  background-color: #232323;
+  ;
+}
+
+.genresConteiner {
+  display: grid;
+  grid-template-rows: auto auto;
+  row-gap: 30px;
+}
+
+.genres,
+.ordering {
+  display: flex;
+  gap: 30px;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.firstRow,
+.secondRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.line {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  grid-column: 1 / 11;
+  /* background-color: ; */
+}
+
+.firstline {
+  height: 2px;
+  background: #424242;
+}
+
+.secondline {
+  height: 1px;
+}
+
+.thirdLine {
+  height: 1px;
+  background: #080707;
+}
+
+.secondRow {
+  position: relative;
+}
+
+.activeLine {
+  height: 100%;
+  background: #F65261;
+  transition: 0.3s;
+}
+
+.foundMovieText {
+  color: #ffffff;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: left;
+  margin: 24px 0px;
+}
+
+.movieConteiner{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 50px;
+  row-gap: 50px;
+}
+.movie{
+  height: 500px;
+  border:1px solid #fff;
+}
+.orderListTitle{
+  display: flex;
+  align-items: center;
+}
+.orderListTitle img{
+  margin-left: 12px;
+}
