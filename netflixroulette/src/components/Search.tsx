@@ -3,9 +3,10 @@ import React from 'react';
 import styles from '../styles/Search.module.css';
 import bitmap from '../assets/images/bitmap.png'
 
-export default function IntroBlock() {
-  const [value, setValue] = React.useState('What do you want to watch?');
+export default function Search() {
+  const [value, setValue] = React.useState('');
   const handleChange = (event:any) => {
+
     setValue(event.target.value);
   };
 
@@ -25,6 +26,7 @@ export default function IntroBlock() {
           <input
             type='search'
             name='search'
+            placeholder='What do you want to watch?'
             className={styles.inputField}
             value={value}
             onChange={handleChange}
