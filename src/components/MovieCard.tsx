@@ -15,14 +15,14 @@ export interface IMovieCardProps {
   time: string;
 }
 
-export function MovieCard({
+export const MovieCard: React.FC<IMovieCardProps> = ({
   id,
   title,
   year,
   genres,
   image,
   click,
-}: IMovieCardProps): JSX.Element {
+}) => {
   const [burgerMenuIsOpen, setIsBurgerMenuIsOpen] = React.useState(false);
 
   const handleClickBurgerOpen = () => {
@@ -67,4 +67,4 @@ export function MovieCard({
       </div>
     </div>
   );
-}
+};

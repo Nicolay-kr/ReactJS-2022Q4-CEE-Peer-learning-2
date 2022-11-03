@@ -1,8 +1,5 @@
 import * as React from 'react';
-// import styles from '../styles/MovieInfo.module.css';
 import styles from '../styles/MovieInfo.module.css';
-import burger from '../assets/images/burger.svg';
-import cross from '../assets/images/cross.svg';
 
 export interface IMovieInfoProps {
   id: number;
@@ -15,7 +12,7 @@ export interface IMovieInfoProps {
   time: string;
 }
 
-export function MovieInfo({
+export const MovieInfo:React.FC<IMovieInfoProps> =({
   id,
   title,
   year,
@@ -24,16 +21,7 @@ export function MovieInfo({
   description,
   score,
   time,
-}: IMovieInfoProps): JSX.Element {
-  const [burgerMenuIsOpen, setIsBurgerMenuIsOpen] = React.useState(false);
-
-  const handleClickBurgerOpen = () => {
-    setIsBurgerMenuIsOpen(true);
-  };
-
-  const handleClickBurgerClose = () => {
-    setIsBurgerMenuIsOpen(false);
-  };
+})=>{
 
   return (
     <div className={styles.conteiner}>

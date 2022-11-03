@@ -4,7 +4,7 @@ import arrow from '../assets/images/arrow.svg';
 import { movies } from '../constants/movies';
 import { MovieCard } from './MovieCard';
 import bitmap from '../assets/images/bitmap.png';
-import Search from './Search';
+import {Search} from './Search';
 import { MovieInfo, IMovieInfoProps } from './MovieInfo';
 import loop from '../assets/images/loop.svg';
 

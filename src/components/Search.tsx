@@ -1,9 +1,7 @@
 import React from 'react';
-// import styles from '../styles/Search.module.css';
 import styles from '../styles/Search.module.css';
-import loop from '../assets/images/loop.svg';
 
-export default function Search() {
+export const Search:React.FC = () => {
   const [value, setValue] = React.useState('');
   const handleChange = (event: any) => {
     setValue(event.target.value);
