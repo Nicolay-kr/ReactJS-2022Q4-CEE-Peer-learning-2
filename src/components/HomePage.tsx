@@ -7,11 +7,13 @@ import bitmap from '../assets/images/bitmap.png';
 import {Search} from './Search';
 import { MovieInfo, IMovieInfoProps } from './MovieInfo';
 import loop from '../assets/images/loop.svg';
+import AddMovieForm from './modals/AddMovieModal/AddMovieModal';
 
 type HomePageProps = {
   children?: React.ReactNode;
   genresRef?: HTMLDivElement;
   genres?: string[];
+  onOpenAddMovieModal: ()=>void;
 };
 
 type HomePageState = {
@@ -19,6 +21,7 @@ type HomePageState = {
   activeGenreElement: any;
   activeMovie: IMovieInfoProps;
   isOpenCardDescription: boolean;
+  isOpenAddMovie: boolean;
 };
 
 class HomePage extends React.PureComponent<
@@ -30,6 +33,7 @@ class HomePage extends React.PureComponent<
     this.setActiveGenre = this.setActiveGenre.bind(this);
     this.setActiveCardMovie = this.setActiveCardMovie.bind(this);
     this.closeActiveCardMovie = this.closeActiveCardMovie.bind(this);
+    this.handleAddMovieClick = this.handleAddMovieClick.bind(this);
   }
   state: HomePageState = {
     activeGenre: 0,
@@ -45,6 +49,7 @@ class HomePage extends React.PureComponent<
       genres: movies[0].genres,
     },
     isOpenCardDescription: false,
+    isOpenAddMovie: true,
   };
 
   static genres = { genres: {} };
@@ -90,6 +95,10 @@ class HomePage extends React.PureComponent<
     }));
   }
 
+  handleAddMovieClick() {
+    this.props.onOpenAddMovieModal()
+  }
+
   render() {
     const genresConteinerLeft =
       this.genresConteinerRef?.current?.getBoundingClientRect().left
@@ -98,9 +107,12 @@ class HomePage extends React.PureComponent<
     const { genres = ['all', 'Documentary', 'Comedy', 'Horror', 'crime'] } =
       this.props;
     const activeGenreElement = this.state.activeGenreElement;
+    const isOpenAddMovie = this.state.isOpenAddMovie;
 
     return (
       <>
+      {/* {isOpenAddMovie?(<AddMovieForm genres={genres}></AddMovieForm>):null} */}
+      
         <header
           className={styles.headerConteiner}
           style={{ backgroundImage: `url(${bitmap})` }}
@@ -111,7 +123,7 @@ class HomePage extends React.PureComponent<
                 <strong>netflix</strong>roulette
               </span>
               {!this.state.isOpenCardDescription ? (
-                <button className={styles.addMovieButton}>+ add movie</button>
+                <button className={styles.addMovieButton} onClick={this.handleAddMovieClick}>+ add movie</button>
               ) : (
                 <img
                   className={styles.searchIcon}
