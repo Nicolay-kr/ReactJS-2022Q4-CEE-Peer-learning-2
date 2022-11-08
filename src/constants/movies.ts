@@ -19,7 +19,7 @@ export const movies = [
   {
     id: 2,
     title: 'Bohemian Rhapsody',
-    year: '2003',
+    year: '11/11/2003',
     genres: ['Drama', 'Biography', 'Music'],
     image: movie2,
     score: '8.9',

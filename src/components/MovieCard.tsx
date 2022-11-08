@@ -13,6 +13,7 @@ export interface IMovieCardProps {
   description: string;
   score: string;
   time: string;
+  onOpenMovieModal: (mode: string, movie: any) => void;
 }
 
 export const MovieCard: React.FC<IMovieCardProps> = ({
@@ -22,8 +23,14 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
   genres,
   image,
   click,
+  score,
+  time,
+  description,
+  onOpenMovieModal,
 }) => {
   const [burgerMenuIsOpen, setIsBurgerMenuIsOpen] = React.useState(false);
+
+  const movie = { id, title, year, genres, image, click, time, score, description };
 
   const handleClickBurgerOpen = () => {
     setIsBurgerMenuIsOpen(true);
@@ -35,6 +42,12 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
 
   const handleClick = () => {
     click(id);
+  };
+
+  const handleEditMovieClick = () => {
+    if(movie){
+      onOpenMovieModal('edit', movie);
+    }
   };
 
   return (
@@ -53,7 +66,7 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
             alt='cross icon'
             onClick={handleClickBurgerClose}
           />
-          <p>Edit</p>
+          <p onClick={handleEditMovieClick}>Edit</p>
           <p>Delete</p>
         </div>
       ) : null}

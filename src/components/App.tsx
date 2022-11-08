@@ -3,26 +3,33 @@ import '../styles/App.css';
 import HomePage from './HomePage';
 import { Footer } from './Footer';
 import ErrorBoundary from './ErrorBoundary';
-import AddMovieModal from './modals/AddMovieModal/AddMovieModal';
-// import AddMovieModal from '../components/modals/AddMovieModal';
+import MovieModal from './modals/MovieModal/MovieModal';
+// import MovieModal from '../components/modals/MovieModal';
 
 function App(): JSX.Element {
-  const [modalParams, setModalParams] = useState<boolean>(false);
+  const [isMovieModalopen, setIsMovieModalopen] = useState<boolean>(false);
+  const [movie, setMovie] = useState<string|null>(null);
+  const [mode, setMode] = useState<any>(null);
+  // const [isMovieModalopen, setIsMovieModalopen] = useState<boolean>(false);
 
-  const openAddMovieModal = () => {
-    setModalParams(true)
+  const openMovieModal = (mode:string='add', movie=null) => {
+    setMovie(movie)
+    setMode(mode);
+    setIsMovieModalopen(true)
   }
-  const closeAddMovieModal = () => {
-    setModalParams(false)
+  const closeMovieModal = () => {
+    setIsMovieModalopen(false)
   }
+
 
   return (
     <ErrorBoundary>
       <div className='App'>
-        <HomePage onOpenAddMovieModal={openAddMovieModal} ></HomePage>
+        <HomePage onOpenMovieModal={openMovieModal} ></HomePage>
         <Footer></Footer>
       </div>
-      {modalParams?<AddMovieModal onClose={closeAddMovieModal}></AddMovieModal>:null}
+      {isMovieModalopen?<MovieModal onClose={closeMovieModal} movie={movie} mode={mode}></MovieModal>:null}
+      {/* {isEditMovieModalopen?<MovieModal onClose={closeEditMovieModal}></MovieModal>:null} */}
     </ErrorBoundary>
   );
 }
