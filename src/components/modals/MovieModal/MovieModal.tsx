@@ -1,14 +1,16 @@
 import * as React from 'react';
-import styles from './AddMovieModal.module.css';
+import styles from './MovieModal.module.css';
 import arrow from '../../../assets/images/arrow.svg';
 import cross from '../../../assets/images/cross.svg';
 import { Overlay } from '../../Overlay/Overlay';
 
 interface IAddMovieFormProps {
   onClose?: () => void;
+  movie:any;
+  mode:string;
 }
 
-const AddMovieModal: React.FunctionComponent<IAddMovieFormProps> = ({onClose}) => {
+const MovieModal: React.FunctionComponent<IAddMovieFormProps> = ({onClose,movie,mode}) => {
   const defaultFormState = {
     title: '',
     realiseDate: '',
@@ -18,8 +20,18 @@ const AddMovieModal: React.FunctionComponent<IAddMovieFormProps> = ({onClose}) =
     runtime: '',
     overview: '',
   };
-  const genres = ['all', 'Documentary', 'Comedy', 'Horror', 'crime'];
-  const [formState, setFormState] = React.useState(defaultFormState);
+
+  const editFormState = {
+    title: movie?.title? movie.title:'',
+    realiseDate: movie?.year?movie.year:'',
+    movieUrl: '',
+    rating: movie?.score?movie.score:'',
+    genre: 'Select Genre',
+    runtime: movie?.time?movie.time:'',
+    overview: movie?.description?movie.description:'',
+  };
+  const genres = ['Documentary', 'Comedy', 'Horror', 'crime'];
+  const [formState, setFormState] = React.useState(mode ==='add'? defaultFormState:editFormState);
   const [isGenreListOpen, setIsGenreListOpen] = React.useState(false);
 
   const handleChangeTitle = (e) => {
@@ -64,7 +76,7 @@ const AddMovieModal: React.FunctionComponent<IAddMovieFormProps> = ({onClose}) =
     <Overlay>
       <div className={styles.formConteiner}>
       <img style={{marginLeft: 'auto',width:'20px', cursor:'pointer'}} src={cross} alt='cross' onClick={handleCloseModal} />
-        <h2 className={styles.title}>ADD MOVIE</h2>
+        <h2 className={styles.title}>{mode==='edit'? 'EDIT MOVIE':'ADD MOVIE'}</h2>
         <form className={styles.form} action='page.html' method='post'>
           <label>
             TITLE
@@ -162,4 +174,4 @@ const AddMovieModal: React.FunctionComponent<IAddMovieFormProps> = ({onClose}) =
   );
 };
 
-export default AddMovieModal;
+export default MovieModal;

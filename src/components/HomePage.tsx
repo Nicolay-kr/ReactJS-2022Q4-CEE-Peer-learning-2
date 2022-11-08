@@ -7,13 +7,14 @@ import bitmap from '../assets/images/bitmap.png';
 import {Search} from './Search';
 import { MovieInfo, IMovieInfoProps } from './MovieInfo';
 import loop from '../assets/images/loop.svg';
-import AddMovieForm from './modals/AddMovieModal/AddMovieModal';
+// import AddMovieForm from './modals/MovieModal/MovieModal';
 
 type HomePageProps = {
   children?: React.ReactNode;
   genresRef?: HTMLDivElement;
   genres?: string[];
-  onOpenAddMovieModal: ()=>void;
+  onOpenMovieModal: (mode: string, movie: any)=>void;
+  // openEditMovieModal: ()=>void;
 };
 
 type HomePageState = {
@@ -96,7 +97,7 @@ class HomePage extends React.PureComponent<
   }
 
   handleAddMovieClick() {
-    this.props.onOpenAddMovieModal()
+    this.props.onOpenMovieModal('add',null)
   }
 
   render() {
@@ -107,7 +108,7 @@ class HomePage extends React.PureComponent<
     const { genres = ['all', 'Documentary', 'Comedy', 'Horror', 'crime'] } =
       this.props;
     const activeGenreElement = this.state.activeGenreElement;
-    const isOpenAddMovie = this.state.isOpenAddMovie;
+    // const isOpenAddMovie = this.state.isOpenAddMovie;
 
     return (
       <>
@@ -145,6 +146,7 @@ class HomePage extends React.PureComponent<
                 score={this.state.activeMovie.score}
                 description={this.state.activeMovie.description}
                 time={this.state.activeMovie.time}
+                
               ></MovieInfo>
             ) : (
               <Search
@@ -215,6 +217,7 @@ class HomePage extends React.PureComponent<
                 time={movie.time}
                 score={movie.score}
                 click={this.setActiveCardMovie}
+                onOpenMovieModal={this.props.onOpenMovieModal}
               ></MovieCard>
             ))}
           </div>
