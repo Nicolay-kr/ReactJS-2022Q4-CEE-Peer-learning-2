@@ -7,6 +7,7 @@ import bitmap from '../assets/images/bitmap.png';
 import {Search} from './Search';
 import { MovieInfo, IMovieInfoProps } from './MovieInfo';
 import loop from '../assets/images/loop.svg';
+import sotingMovies from '../utills/sorting'
 // import AddMovieForm from './modals/MovieModal/MovieModal';
 
 type HomePageProps = {
@@ -15,6 +16,7 @@ type HomePageProps = {
   genres?: string[];
   onOpenMovieModal: (mode: string, movie: any)=>void;
   openDeleteMovieModal: (id:string|number) => void;
+  movies:any;
 };
 
 type HomePageState = {
@@ -23,6 +25,8 @@ type HomePageState = {
   activeMovie: IMovieInfoProps;
   isOpenCardDescription: boolean;
   isOpenAddMovie: boolean;
+  isSortingMenuOpen: boolean;
+  movies:any;
 };
 
 class HomePage extends React.PureComponent<
@@ -35,6 +39,9 @@ class HomePage extends React.PureComponent<
     this.setActiveCardMovie = this.setActiveCardMovie.bind(this);
     this.closeActiveCardMovie = this.closeActiveCardMovie.bind(this);
     this.handleAddMovieClick = this.handleAddMovieClick.bind(this);
+    this.handleSortingOpen = this.handleSortingOpen.bind(this);
+    this.handleSortingClose = this.handleSortingClose.bind(this);
+    this.handleSorting = this.handleSorting.bind(this);
   }
   state: HomePageState = {
     activeGenre: 0,
@@ -51,6 +58,8 @@ class HomePage extends React.PureComponent<
     },
     isOpenCardDescription: false,
     isOpenAddMovie: true,
+    isSortingMenuOpen: false,
+    movies,
   };
 
   static genres = { genres: {} };
@@ -98,6 +107,31 @@ class HomePage extends React.PureComponent<
 
   handleAddMovieClick() {
     this.props.onOpenMovieModal('add',null)
+  }
+
+  handleSortingOpen() {
+    this.setState((state) => ({
+      ...state,
+      isSortingMenuOpen: true,
+    }));
+  }
+  handleSortingClose() {
+    this.setState((state) => ({
+      ...state,
+      isSortingMenuOpen: false,
+    }));
+  }
+  handleSorting(e) {
+    const sortBy = e.target.textContent
+    console.log(e.target.textContent)
+    const sortMoviesArr = sotingMovies(movies,sortBy)
+    this.setState((state) => ({
+      ...state,
+      movies: sortMoviesArr,
+    }));
+
+
+    this.handleSortingClose()
   }
 
   render() {
@@ -172,9 +206,15 @@ class HomePage extends React.PureComponent<
 
               <div className={styles.ordering}>
                 <span style={{ opacity: '0.6' }}>Sort by</span>
-                <span className={styles.orderListTitle}>
-                  release date <img src={arrow} alt='arrow' />
-                </span>
+                <div className={styles.orderListTitle}>
+                  <span onClick={this.handleSortingOpen}>release date <img src={arrow} alt='arrow' /></span>
+                  {this.state.isSortingMenuOpen?(<div className={styles.sortingMenuConteiner}>
+                    <p onClick={this.handleSorting}>year</p>
+                    <p onClick={this.handleSorting}>rating</p>
+
+                  </div>):null}
+
+                </div>
               </div>
             </div>
 

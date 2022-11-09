@@ -128,8 +128,20 @@
 }
 
 .orderListTitle {
+  position: relative;
   display: flex;
   align-items: center;
+}
+.sortingMenuConteiner{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 100%;
+  background: #232323;
+  z-index: 2;
+  border-radius: 4px;
+  padding: 20px;
+
 }
 
 .orderListTitle img {
