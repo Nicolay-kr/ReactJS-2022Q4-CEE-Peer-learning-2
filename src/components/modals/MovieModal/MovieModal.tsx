@@ -30,7 +30,7 @@ const MovieModal: React.FunctionComponent<IAddMovieFormProps> = ({
     title: movie?.title ? movie.title : '',
     realiseDate: movie?.year ? movie.year : '',
     movieUrl: '',
-    rating: movie?.score ? movie.score : '',
+    rating: movie?.rating ? movie.rating : '',
     genre: 'Select Genre',
     runtime: movie?.time ? movie.time : '',
     overview: movie?.description ? movie.description : '',

@@ -7,7 +7,7 @@ export interface IMovieInfoProps {
   year: string;
   genres: string[];
   image: string;
-  score: string;
+  rating: string;
   description: string;
   time: string;
 }
@@ -19,7 +19,7 @@ export const MovieInfo:React.FC<IMovieInfoProps> =({
   genres,
   image,
   description,
-  score,
+  rating,
   time,
 })=>{
 
@@ -30,7 +30,7 @@ export const MovieInfo:React.FC<IMovieInfoProps> =({
         <div className={styles.titleConteiner}>
           <div className={styles.titleContent}>
             <p className={styles.title}>{title}</p>
-            <div className={styles.score}>{score}</div>
+            <div className={styles.rating}>{rating}</div>
           </div>
           <p className={styles.genre}>{genres.join(', ')}</p>
         </div>

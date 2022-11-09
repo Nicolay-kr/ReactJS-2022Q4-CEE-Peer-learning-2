@@ -11,7 +11,7 @@ export interface IMovieCardProps {
   image: string;
   click: any;
   description: string;
-  score: string;
+  rating: string;
   time: string;
   onOpenMovieModal: (mode: string, movie: any) => void;
   openDeleteMovieModal: (id:string|number) => void;
@@ -24,7 +24,7 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
   genres,
   image,
   click,
-  score,
+  rating,
   time,
   description,
   onOpenMovieModal,
@@ -32,7 +32,7 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
 }) => {
   const [burgerMenuIsOpen, setIsBurgerMenuIsOpen] = React.useState(false);
 
-  const movie = { id, title, year, genres, image, click, time, score, description };
+  const movie = { id, title, year, genres, image, click, time, rating, description };
 
   const handleClickBurgerOpen = () => {
     setIsBurgerMenuIsOpen(true);
