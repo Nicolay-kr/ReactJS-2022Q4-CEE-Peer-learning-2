@@ -14,7 +14,7 @@ type HomePageProps = {
   genresRef?: HTMLDivElement;
   genres?: string[];
   onOpenMovieModal: (mode: string, movie: any)=>void;
-  // openEditMovieModal: ()=>void;
+  openDeleteMovieModal: (id:string|number) => void;
 };
 
 type HomePageState = {
@@ -218,6 +218,7 @@ class HomePage extends React.PureComponent<
                 score={movie.score}
                 click={this.setActiveCardMovie}
                 onOpenMovieModal={this.props.onOpenMovieModal}
+                openDeleteMovieModal={this.props.openDeleteMovieModal}
               ></MovieCard>
             ))}
           </div>

@@ -14,6 +14,7 @@ export interface IMovieCardProps {
   score: string;
   time: string;
   onOpenMovieModal: (mode: string, movie: any) => void;
+  openDeleteMovieModal: (id:string|number) => void;
 }
 
 export const MovieCard: React.FC<IMovieCardProps> = ({
@@ -27,6 +28,7 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
   time,
   description,
   onOpenMovieModal,
+  openDeleteMovieModal,
 }) => {
   const [burgerMenuIsOpen, setIsBurgerMenuIsOpen] = React.useState(false);
 
@@ -49,6 +51,11 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
       onOpenMovieModal('edit', movie);
     }
   };
+  const handleDeleteMovieClick = () => {
+    if(movie){
+      openDeleteMovieModal(id);
+    }
+  };
 
   return (
     <div className={styles.conteiner}>
@@ -67,7 +74,7 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
             onClick={handleClickBurgerClose}
           />
           <p onClick={handleEditMovieClick}>Edit</p>
-          <p>Delete</p>
+          <p onClick={handleDeleteMovieClick}>Delete</p>
         </div>
       ) : null}
       <div className={styles.content} onClick={handleClick}>
