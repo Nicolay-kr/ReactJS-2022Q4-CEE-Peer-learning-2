@@ -50,11 +50,13 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
     if(movie){
       onOpenMovieModal('edit', movie);
     }
+    handleClickBurgerClose()
   };
   const handleDeleteMovieClick = () => {
     if(movie){
       openDeleteMovieModal(id);
     }
+    handleClickBurgerClose()
   };
 
   return (
