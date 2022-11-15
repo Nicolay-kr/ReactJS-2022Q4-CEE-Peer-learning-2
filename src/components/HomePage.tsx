@@ -53,11 +53,11 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
     );
   };
 
-  const setActiveCardMovie = (id: string | number) => {
+  const setActiveCardMovie = React.useCallback((id: string | number) => {
     const activeMovie = movies[id];
     setActiveMovie(activeMovie);
     setIsOpenCardDescription(true);
-  };
+  },[movies])
 
   const closeActiveCardMovie = () => {
     setIsOpenCardDescription(false);
