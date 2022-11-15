@@ -8,6 +8,7 @@ import { Search } from './Search';
 import { MovieInfo, IMovieInfoProps } from './MovieInfo';
 import loop from '../assets/images/loop.svg';
 import { sortingMovies } from '../utills/sorting';
+import { useMovieInfoTogle } from './useMovieInfoTogle';
 // import AddMovieForm from './modals/MovieModal/MovieModal';
 
 type HomePageProps = {
@@ -24,23 +25,13 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
   const [activeGenre, setActiveGenre] = React.useState<number>(0);
   const [activeGenreElement, setActiveGenreElement] = React.useState<any>(null);
   const [genresConteinerLeft, setGenresConteinerLeft] = React.useState<any>(0);
-  const [isOpenCardDescription, setIsOpenCardDescription] =
-    React.useState<boolean>(false);
   const [isOpenAddMovie, setIsOpenAddMovie] = React.useState<boolean>(true);
   const [isSortingMenuOpen, setIsSortingMenuOpen] =
     React.useState<boolean>(false);
   const [sortBy, setSortBy] = React.useState<string>('year');
   const [movies, setMovies] = React.useState(initialMovies);
-  const [activeMovie, setActiveMovie] = React.useState<IMovieInfoProps>({
-    id: movies[0].id,
-    title: movies[0].title,
-    year: movies[0].year,
-    image: movies[0].image,
-    rating: movies[0].rating,
-    description: movies[0].description,
-    time: movies[0].time,
-    genres: movies[0].genres,
-  });
+
+  const [setActiveCardMovie,closeActiveCardMovie,activeMovie,isOpenCardDescription] = useMovieInfoTogle(movies)
 
   const genresRef = React.createRef<HTMLDivElement>();
   const genresConteinerRef = React.createRef<HTMLDivElement>();
@@ -53,15 +44,6 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
     );
   };
 
-  const setActiveCardMovie = React.useCallback((id: string | number) => {
-    const activeMovie = movies[id];
-    setActiveMovie(activeMovie);
-    setIsOpenCardDescription(true);
-  },[movies])
-
-  const closeActiveCardMovie = () => {
-    setIsOpenCardDescription(false);
-  };
 
   const handleAddMovieClick = () => {
     props.onOpenMovieModal('add', null);
