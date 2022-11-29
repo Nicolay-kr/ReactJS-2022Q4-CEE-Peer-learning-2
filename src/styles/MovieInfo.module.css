@@ -1,6 +1,7 @@
 .conteiner {
   display: grid;
   grid-template-columns: 1fr 2fr;
+  column-gap: 30px;
   margin-top: 30px;
 }
 

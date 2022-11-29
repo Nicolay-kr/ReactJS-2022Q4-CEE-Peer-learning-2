@@ -1,15 +1,15 @@
 import React from 'react';
 import styles from '../styles/HomePage.module.css';
-import arrow from '../assets/images/arrow.svg';
-import { movies as initialMovies } from '../constants/movies';
 import { MovieCard } from './MovieCard';
 import bitmap from '../assets/images/bitmap.png';
 import { Search } from './Search';
 import { MovieInfo, IMovieInfoProps } from './MovieInfo';
-import loop from '../assets/images/loop.svg';
-import { sortingMovies } from '../utills/sorting';
 import { useMovieInfoTogle } from './useMovieInfoTogle';
-// import AddMovieForm from './modals/MovieModal/MovieModal';
+
+import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { fetchMoviesAsync, selectMovies } from '../app/moviesSlice';
+import SortingPannel from './sortingpannel/SortingPannel';
+import AddMovieButton from './addMovieButton/AddMovieButton';
 
 type HomePageProps = {
   children?: React.ReactNode;
@@ -21,68 +21,29 @@ type HomePageProps = {
 };
 
 export const HomePage: React.FC<HomePageProps> = (props) => {
+  const movies = useAppSelector(selectMovies);
+  const dispatch = useAppDispatch();
+  // console.log(movies.moviesList)
 
-  const [activeGenre, setActiveGenre] = React.useState<number>(0);
-  const [activeGenreElement, setActiveGenreElement] = React.useState<any>(null);
-  const [genresConteinerLeft, setGenresConteinerLeft] = React.useState<any>(0);
-  const [isOpenAddMovie, setIsOpenAddMovie] = React.useState<boolean>(true);
-  const [isSortingMenuOpen, setIsSortingMenuOpen] =
-    React.useState<boolean>(false);
-  const [sortBy, setSortBy] = React.useState<string>('year');
-  const [movies, setMovies] = React.useState(initialMovies);
-
-  const [setActiveCardMovie,closeActiveCardMovie,activeMovie,isOpenCardDescription] = useMovieInfoTogle(movies)
-
-  const genresRef = React.createRef<HTMLDivElement>();
-  const genresConteinerRef = React.createRef<HTMLDivElement>();
-
-  const handleChangeActiveGenre = (e: any) => {
-    const id = e.target.id;
-    setActiveGenre(id);
-    setActiveGenreElement(
-      genresRef?.current?.children[id].getBoundingClientRect()
-    );
-  };
-
+  const [
+    setActiveCardMovie,
+    closeActiveCardMovie,
+    activeMovie,
+    isOpenCardDescription,
+  ] = useMovieInfoTogle(movies.moviesList);
 
   const handleAddMovieClick = () => {
     props.onOpenMovieModal('add', null);
   };
 
-  const handleSortingOpen = () => {
-    setIsSortingMenuOpen(true);
-  };
-
-  const handleSortingClose = () => {
-    setIsSortingMenuOpen(false);
-  };
-
-  const handleSorting = (e) => {
-    const sortBy = e.target.textContent;
-    const sortMoviesArr = sortingMovies(movies, sortBy);
-    setSortBy(sortBy);
-    setMovies(sortMoviesArr);
-    handleSortingClose();
-  };
-
-  const { genres = ['all', 'Documentary', 'Comedy', 'Horror', 'crime'] } =
-    props;
-
+  console.log(activeMovie);
 
   React.useEffect(() => {
-    setMovies(sortingMovies(movies, sortBy));
-    setActiveGenreElement(
-      genresRef?.current?.children[activeGenre].getBoundingClientRect()
-    );
-    setGenresConteinerLeft(genresConteinerRef?.current?.getBoundingClientRect().left
-    ? genresConteinerRef.current.getBoundingClientRect().left
-    : 0)
-  },[]);
+    dispatch(fetchMoviesAsync());
+  }, []);
 
   return (
     <>
-      {/* {isOpenAddMovie?(<AddMovieForm genres={genres}></AddMovieForm>):null} */}
-
       <header
         className={styles.headerConteiner}
         style={{ backgroundImage: `url(${bitmap})` }}
@@ -92,35 +53,27 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
             <span className={styles.name}>
               <strong>netflix</strong>roulette
             </span>
-
-            {!isOpenCardDescription ? (
-              <button
-                className={styles.addMovieButton}
-                onClick={handleAddMovieClick}
-              >
-                + add movie
-              </button>
-            ) : (
-              <img
-                className={styles.searchIcon}
-                src={loop}
-                alt='loop icon'
-                onClick={closeActiveCardMovie}
-              />
-            )}
+            <AddMovieButton
+              isOpenCardDescription={isOpenCardDescription}
+              closeActiveCardMovie={closeActiveCardMovie}
+              handleAddMovieClick={handleAddMovieClick}
+            ></AddMovieButton>
           </div>
 
-          {isOpenCardDescription ? (
+          {isOpenCardDescription && activeMovie ? (
             <MovieInfo
-              key={activeMovie.id}
               id={activeMovie.id}
               title={activeMovie.title}
-              year={activeMovie.year}
+              tagline={activeMovie.tagline}
+              vote_count={activeMovie.vote_count}
+              budget={activeMovie.budget}
+              release_date={activeMovie.release_date}
+              revenue={activeMovie.revenue}
               genres={activeMovie.genres}
-              image={activeMovie.image}
-              rating={activeMovie.rating}
-              description={activeMovie.description}
-              time={activeMovie.time}
+              poster_path={activeMovie.poster_path}
+              overview={activeMovie.overview}
+              runtime={activeMovie.runtime}
+              vote_average={activeMovie.vote_average}
             ></MovieInfo>
           ) : (
             <Search />
@@ -129,79 +82,35 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
       </header>
 
       <main className={styles.mainConteiner}>
-        <div className={styles.genresConteiner} ref={genresConteinerRef}>
-          <div className={styles.firstRow} >
-            <div className={styles.genres} ref={genresRef}>
-              {genres.map((gener, index) => (
-                <span
-                  id={`${index}`}
-                  key={gener}
-                  onClick={handleChangeActiveGenre}
-                >
-                  {gener}
-                </span>
-              ))}
-            </div>
+        <SortingPannel></SortingPannel>
 
-            <div className={styles.ordering}>
-              <span style={{ opacity: '0.6' }}>Sort by</span>
-              <div className={styles.orderListTitle}>
-                <span onClick={handleSortingOpen}>
-                  {sortBy} <img src={arrow} alt='arrow' />
-                </span>
-                {isSortingMenuOpen ? (
-                  <div className={styles.sortingMenuConteiner}>
-                    <p onClick={handleSorting}>year</p>
-                    <p onClick={handleSorting}>rating</p>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          </div>
-
-          <div
-            className={styles.secondRow}
-            style={{
-              position: 'relative',
-            }}
-          >
-            <div
-              className={styles.activeLine}
-              style={{
-                position: 'absolute',
-                width: activeGenreElement
-                  ? `${activeGenreElement.width}px`
-                  : '100px',
-                left: activeGenreElement
-                  ? `${activeGenreElement.x - genresConteinerLeft}px`
-                  : '100px',
-              }}
-            ></div>
-            <div className={styles.line}>
-              <span className={styles.firstline}></span>
-              <span className={styles.secondline}></span>
-              <span className={styles.thirdLine}></span>
-            </div>
-          </div>
-        </div>
-        <p className={styles.foundMovieText}>39 movies found</p>
+        <p className={styles.foundMovieText}>
+          {movies.moviesList.length} movies found
+        </p>
         <div className={styles.movieConteiner}>
-          {movies.map((movie, index) => (
-            <MovieCard
-              key={movie.id}
-              id={index}
-              title={movie.title}
-              year={movie.year}
-              genres={movie.genres}
-              image={movie.image}
-              description={movie.description}
-              time={movie.time}
-              rating={movie.rating}
-              click={setActiveCardMovie}
-              onOpenMovieModal={props.onOpenMovieModal}
-              openDeleteMovieModal={props.openDeleteMovieModal}
-            ></MovieCard>
-          ))}
+          {movies.moviesList.length > 1
+            ? movies.moviesList.map((movie) => (
+                <div key={movie.id}>
+                  <MovieCard
+                    id={movie.id}
+                    title={movie.title}
+                    tagline={movie.tagline}
+                    vote_count={movie.vote_count}
+                    budget={movie.budget}
+                    release_date={movie.release_date}
+                    revenue={movie.revenue}
+                    genres={movie.genres}
+                    poster_path={movie.poster_path}
+                    overview={movie.overview}
+                    runtime={movie.runtime}
+                    vote_average={movie.vote_average}
+                    click={setActiveCardMovie}
+                    onOpenMovieModal={props.onOpenMovieModal}
+                    openDeleteMovieModal={props.openDeleteMovieModal}
+                  ></MovieCard>
+                </div>
+              ))
+            : null}
         </div>
       </main>
     </>

@@ -2,17 +2,10 @@ import * as React from 'react';
 import styles from '../styles/MovieCard.module.css';
 import burger from '../assets/images/burger.svg';
 import cross from '../assets/images/cross.svg';
+import {Movie} from '../types/movie'
 
-export interface IMovieCardProps {
-  id: number;
-  title: string;
-  year: string;
-  genres: string[];
-  image: string;
+export interface IMovieCardProps extends Movie {
   click: any;
-  description: string;
-  rating: string;
-  time: string;
   onOpenMovieModal: (mode: string, movie: any) => void;
   openDeleteMovieModal: (id:string|number) => void;
 }
@@ -20,19 +13,23 @@ export interface IMovieCardProps {
 export const MovieCard: React.FC<IMovieCardProps> = ({
   id,
   title,
-  year,
+  tagline,
+  vote_average,
+  vote_count,
+  release_date,
+  poster_path,
+  overview,
+  budget,
+  revenue,
   genres,
-  image,
+  runtime,
   click,
-  rating,
-  time,
-  description,
   onOpenMovieModal,
   openDeleteMovieModal,
 }) => {
   const [burgerMenuIsOpen, setIsBurgerMenuIsOpen] = React.useState(false);
 
-  const movie = { id, title, year, genres, image, click, time, rating, description };
+  const movie = { id, title, release_date, genres, poster_path, click, runtime, vote_average, overview };
 
   const handleClickBurgerOpen = () => {
     setIsBurgerMenuIsOpen(true);
@@ -60,7 +57,7 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
   };
 
   return (
-    <div className={styles.conteiner}>
+    <div className={styles.conteiner} key={id}>
       <img
         className={styles.burger}
         src={burger}
@@ -80,10 +77,10 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
         </div>
       ) : null}
       <div className={styles.content} onClick={handleClick}>
-        <img src={image} alt='movie poster' />
+        <img style={{width:'100%',height:'490px'}} src={poster_path} alt='movie poster' />
         <div className={styles.titleConteiner}>
           <p className={styles.title}>{title}</p>
-          <div className={styles.year}>{year}</div>
+          <div className={styles.year}>{`${release_date}`.slice(0,4)}</div>
         </div>
         <p className={styles.genres}>{genres.join(', ')}</p>
       </div>

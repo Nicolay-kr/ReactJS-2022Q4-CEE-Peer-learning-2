@@ -5,20 +5,11 @@ export function useMovieInfoTogle(movies) {
   const [isOpenCardDescription, setIsOpenCardDescription] =
     React.useState<boolean>(false);
 
-  const [activeMovie, setActiveMovie] = React.useState<any>({
-    id: movies[0].id,
-    title: movies[0].title,
-    year: movies[0].year,
-    image: movies[0].image,
-    rating: movies[0].rating,
-    description: movies[0].description,
-    time: movies[0].time,
-    genres: movies[0].genres,
-  });
+  const [activeMovie, setActiveMovie] = React.useState<any>(null);
 
   const setActiveCardMovie = React.useCallback(
     (id: string | number) => {
-      const activeMovie = movies[id];
+      const activeMovie = movies.find(movie=>movie.id===id);
       setActiveMovie(activeMovie);
       setIsOpenCardDescription(true);
     },
