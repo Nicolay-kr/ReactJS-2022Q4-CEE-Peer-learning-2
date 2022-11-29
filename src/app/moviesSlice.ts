@@ -5,13 +5,13 @@ import { HIDE_LOADER, SHOW_LOADER } from './types';
 
 export interface MovieList {
   moviesList: Movie[];
-  activeMovie: Movie|null;
+  activeMovie: Movie | null;
   status: 'idle' | 'loading' | 'failed';
 }
 
 const initialState: MovieList = {
   moviesList: [],
-  activeMovie:null,
+  activeMovie: null,
   status: 'idle',
 };
 
@@ -23,7 +23,9 @@ const initialState: MovieList = {
 export const getAllMoviesAsync = createAsyncThunk(
   'movies/getAllMoviesAsync',
   async () => {
-    const response = await fetch('http://localhost:4000/movies?searchBy=title');
+    const response = await fetch(
+      'http://localhost:4000/movies?searchBy=title&limit=9'
+    );
     const json = await response.json();
     // The value we return becomes the `fulfilled` action payload
     return json.data;
@@ -32,10 +34,32 @@ export const getAllMoviesAsync = createAsyncThunk(
 
 export const getMovieByIdAsync = createAsyncThunk(
   'movies/getMovieByIdAsync',
-  async (id:string | number) => {
+  async (id: string | number) => {
     const response = await fetch(`http://localhost:4000/movies/${id}`);
     const json = await response.json();
     return json;
+  }
+);
+
+export const sortMoviesAsync = createAsyncThunk(
+  'movies/sortMoviesAsync',
+  async (sortBy: string) => {
+    const response = await fetch(
+      `http://localhost:4000/movies?sortBy=${sortBy}&sortOrder=desc&limit=9`
+    );
+    const json = await response.json();
+    return json.data;
+  }
+);
+
+export const filterMoviesAsync = createAsyncThunk(
+  'movies/filterMoviesAsync',
+  async (genre: string) => {
+    const response = await fetch(
+      `http://localhost:4000/movies?searchBy=genres&filter=${genre}&limit=9`
+    );
+    const json = await response.json();
+    return json.data;
   }
 );
 
@@ -95,6 +119,29 @@ export const moviesSlice = createSlice({
         state.activeMovie = action.payload;
       })
       .addCase(getMovieByIdAsync.rejected, (state) => {
+        state.status = 'failed';
+      });
+
+    builder
+      .addCase(sortMoviesAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(sortMoviesAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.moviesList = action.payload;
+      })
+      .addCase(sortMoviesAsync.rejected, (state) => {
+        state.status = 'failed';
+      });
+    builder
+      .addCase(filterMoviesAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(filterMoviesAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.moviesList = action.payload;
+      })
+      .addCase(filterMoviesAsync.rejected, (state) => {
         state.status = 'failed';
       });
   },

@@ -3,7 +3,7 @@ import styles from '../../styles/HomePage.module.css';
 import arrow from '../../assets/images/arrow.svg';
 import { sortingMovies } from '../../utills/sorting';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getAllMoviesAsync, selectMovies } from '../../app/moviesSlice';
+import { filterMoviesAsync, getAllMoviesAsync, selectMovies, sortMoviesAsync } from '../../app/moviesSlice';
 
 type HomePageProps = {
   movies?: any;
@@ -26,6 +26,11 @@ export const SortingPannel: React.FC<HomePageProps> = ({movies}) => {
 
   const handleChangeActiveGenre = (e: any) => {
     const id = e.target.id;
+    if(id===0){
+      dispatch(getAllMoviesAsync());
+    }else{
+      dispatch(filterMoviesAsync(genres[id]))
+    }
     setActiveGenre(id);
     setActiveGenreElement(
       genresRef?.current?.children[id].getBoundingClientRect()
@@ -41,9 +46,18 @@ export const SortingPannel: React.FC<HomePageProps> = ({movies}) => {
   };
 
   const handleSorting = (e) => {
-    const sortBy = e.target.textContent;
-    const sortMoviesArr = sortingMovies(movies, sortBy);
-    setSortBy(sortBy);
+    let sortBy = e.target.textContent;
+    if(sortBy==='year'){
+      sortBy = 'release_date'
+    }
+    else if(sortBy==='rating'){
+      sortBy='vote_average'
+    }
+    console.log(sortBy)
+    dispatch(sortMoviesAsync(sortBy))
+
+    // const sortMoviesArr = sortingMovies(movies, sortBy);
+    // setSortBy(sortBy);
     // setMovies(sortMoviesArr);
     handleSortingClose();
   };

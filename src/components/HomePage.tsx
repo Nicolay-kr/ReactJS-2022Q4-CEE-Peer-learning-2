@@ -23,8 +23,6 @@ type HomePageProps = {
 export const HomePage: React.FC<HomePageProps> = (props) => {
   const movies = useAppSelector(selectMovies);
   const dispatch = useAppDispatch();
-  console.log('active',movies.activeMovie)
-
   const [
     setActiveCardMovie,
     closeActiveCardMovie,
@@ -35,7 +33,6 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
     props.onOpenMovieModal('add', null);
   };
 
-  // console.log(movies.activeMovie);
 
   React.useEffect(() => {
     dispatch(getAllMoviesAsync());
