@@ -28,12 +28,12 @@ const MovieModal: React.FunctionComponent<IAddMovieFormProps> = ({
 
   const editFormState = {
     title: movie?.title ? movie.title : '',
-    realiseDate: movie?.year ? movie.year : '',
+    realiseDate: movie?.release_date ? movie.release_date : '',
     movieUrl: '',
-    rating: movie?.rating ? movie.rating : '',
+    rating: movie?.vote_average ? movie.vote_average : '',
     genre: 'Select Genre',
-    runtime: movie?.time ? movie.time : '',
-    overview: movie?.description ? movie.description : '',
+    runtime: movie?.runtime ? movie.runtime : '',
+    overview: movie?.overview ? movie.overview : '',
   };
   const genres = ['Documentary', 'Comedy', 'Horror', 'crime'];
   const [formState, setFormState] = React.useState(
