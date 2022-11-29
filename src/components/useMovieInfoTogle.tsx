@@ -1,24 +1,29 @@
 import * as React from 'react';
+import { useAppDispatch } from '../app/hooks';
+import { getMovieByIdAsync } from '../app/moviesSlice';
 
-export function useMovieInfoTogle(movies) {
+export function useMovieInfoTogle() {
+
+  const dispatch = useAppDispatch();
 
   const [isOpenCardDescription, setIsOpenCardDescription] =
     React.useState<boolean>(false);
 
-  const [activeMovie, setActiveMovie] = React.useState<any>(null);
+  // const [activeMovie, setActiveMovie] = React.useState<any>(null);
 
   const setActiveCardMovie = React.useCallback(
     (id: string | number) => {
-      const activeMovie = movies.find(movie=>movie.id===id);
-      setActiveMovie(activeMovie);
+      // const activeMovie = movies.find(movie=>movie.id===id);
+      dispatch(getMovieByIdAsync(id))
+
       setIsOpenCardDescription(true);
     },
-    [movies]
+    []
   );
 
-  const closeActiveCardMovie = () => {
+  const closeActiveCardMovie:any = () => {
     setIsOpenCardDescription(false);
   };
 
-  return [setActiveCardMovie,closeActiveCardMovie,activeMovie,isOpenCardDescription]
+  return [setActiveCardMovie,closeActiveCardMovie,isOpenCardDescription]
 }

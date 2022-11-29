@@ -3,7 +3,7 @@ import styles from '../../styles/HomePage.module.css';
 import arrow from '../../assets/images/arrow.svg';
 import { sortingMovies } from '../../utills/sorting';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { fetchMoviesAsync, selectMovies } from '../../app/moviesSlice';
+import { getAllMoviesAsync, selectMovies } from '../../app/moviesSlice';
 
 type HomePageProps = {
   movies?: any;
@@ -63,7 +63,7 @@ export const SortingPannel: React.FC<HomePageProps> = ({movies}) => {
   }, []);
 
   // React.useEffect(() => {
-  //   dispatch(fetchMoviesAsync());
+  //   dispatch(getAllMoviesAsync());
   // }, []);
 
   return (

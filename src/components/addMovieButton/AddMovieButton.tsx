@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../../styles/HomePage.module.css';
 import loop from '../../assets/images/loop.svg';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { fetchMoviesAsync, selectMovies } from '../../app/moviesSlice';
+import { getAllMoviesAsync, selectMovies } from '../../app/moviesSlice';
 
 type AddMovieButtonProps = {
   isOpenCardDescription: Boolean;
