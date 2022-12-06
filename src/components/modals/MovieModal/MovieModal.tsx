@@ -4,6 +4,10 @@ import arrow from '../../../assets/images/arrow.svg';
 import cross from '../../../assets/images/cross.svg';
 import { Overlay } from '../../Overlay/Overlay';
 import SuccessModal from '../SuccessModal/SuccessModal';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { formState } from '../../../types/formState';
 
 interface IAddMovieFormProps {
   onClose?: () => void;
@@ -16,61 +20,52 @@ const MovieModal: React.FunctionComponent<IAddMovieFormProps> = ({
   movie,
   mode,
 }) => {
-  const defaultFormState = {
+  const defaultFormState: formState = {
     title: '',
-    realiseDate: '',
-    movieUrl: '',
-    rating: '',
-    genre: 'Select Genre',
-    runtime: '',
+    vote_average: '',
+    release_date: '',
+    poster_path: '',
     overview: '',
+    genres: 'Select Genre',
+    runtime: '',
   };
 
-  const editFormState = {
+  const editFormState: formState = {
     title: movie?.title ? movie.title : '',
-    realiseDate: movie?.release_date ? movie.release_date : '',
-    movieUrl: '',
-    rating: movie?.vote_average ? movie.vote_average : '',
-    genre: 'Select Genre',
+    release_date: movie?.release_date ? movie.release_date : '',
+    poster_path: movie?.poster_path ? movie.poster_path : '',
+    vote_average: movie?.vote_average ? movie.vote_average : '',
+    genres: 'Select Genre',
     runtime: movie?.runtime ? movie.runtime : '',
     overview: movie?.overview ? movie.overview : '',
   };
-  const genres = ['Documentary', 'Comedy', 'Horror', 'crime'];
-  const [formState, setFormState] = React.useState(
-    mode === 'add' ? defaultFormState : editFormState
-  );
+
+  const schema = yup
+    .object({
+      title: yup.string().required('title is a required field'),
+      vote_average: yup.number().positive().required('RATING is a required field'),
+      release_date: yup.number().required('RELEASE DATE is a required field'),
+      poster_path: yup.string().required('url is a required field'),
+      overview: yup.string().required('overview is a required field'),
+      genres: yup.string().required('genres is a required field'),
+      runtime: yup.string().required('runtime is a required field'),
+    })
+    .required();
+
+  const defaultState = mode === 'add' ? defaultFormState : editFormState;
   const [isGenreListOpen, setIsGenreListOpen] = React.useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = React.useState(false);
 
-  const handleChangeTitle = (e) => {
-    setFormState((state) => ({ ...state, title: e.target.value }));
-  };
-  const handleChangeRealiseDate = (e) => {
-    setFormState((state) => ({ ...state, realiseDate: e.target.value }));
-  };
-  const handleChangeUrl = (e) => {
-    setFormState((state) => ({ ...state, movieUrl: e.target.value }));
-  };
-  const handleChangeRating = (e) => {
-    setFormState((state) => ({ ...state, rating: e.target.value }));
-  };
-  const handleChangeRuntime = (e) => {
-    setFormState((state) => ({ ...state, runtime: e.target.value }));
-  };
-  const handleChangeGenre = (e) => {
-    setFormState((state) => ({ ...state, genre: e.target.value }));
-  };
-  const handleChangeOverview = (e) => {
-    setFormState((state) => ({ ...state, overview: e.target.value }));
-  };
-
-  const handleReset = () => {
-    setFormState(defaultFormState);
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<formState>({
+    defaultValues: defaultState,
+    resolver: yupResolver(schema)
+  });
 
   const handleClickGenresList = (e) => {
-    // e.stopPropagation();
-    // e.nativeEvent.stopImmediatePropagation();
     setIsGenreListOpen(!isGenreListOpen);
   };
 
@@ -81,16 +76,25 @@ const MovieModal: React.FunctionComponent<IAddMovieFormProps> = ({
   };
 
   const handleSuccessCloseModal = () => {
-    setIsSuccessModalOpen(false)
-    handleCloseModal()
+    setIsSuccessModalOpen(false);
+    handleCloseModal();
   };
   const handleSuccessOpenModal = () => {
-    setIsSuccessModalOpen(true)
+    setIsSuccessModalOpen(true);
+  };
+
+  const onSubmit = (data) => {
+    console.log(data);
+    if (mode === 'add') {
+      handleSuccessOpenModal();
+    } else {
+      handleCloseModal();
+    }
   };
 
   return (
     <Overlay>
-      {isSuccessModalOpen && mode==='add' ? (
+      {isSuccessModalOpen && mode === 'add' ? (
         <SuccessModal onClose={handleSuccessCloseModal} />
       ) : (
         <div className={styles.formConteiner}>
@@ -103,53 +107,57 @@ const MovieModal: React.FunctionComponent<IAddMovieFormProps> = ({
           <h2 className={styles.title}>
             {mode === 'edit' ? 'EDIT MOVIE' : 'ADD MOVIE'}
           </h2>
-          <form className={styles.form} action='page.html' method='post'>
+
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <label>
               TITLE
               <input
                 type='text'
-                name='title'
-                value={formState.title}
-                onChange={handleChangeTitle}
                 placeholder='Enter a title'
+                {...register('title')}
               />
+              <p>{errors.title?.message}</p>
             </label>
+
             <label>
               RELEASE DATE
               <input
                 type='date'
-                name='release'
-                value={formState.realiseDate}
-                onChange={handleChangeRealiseDate}
                 placeholder='Select Date'
-              />
+                {...register('release_date')}
+                />
+                <p>{errors.release_date?.message}</p>
             </label>
+
             <label>
               movie url
               <input
-                type='url'
-                name='url'
-                value={formState.movieUrl}
-                onChange={handleChangeUrl}
+                type='text'
                 placeholder='https://'
+                {...register('poster_path')}
               />
+               <p>{errors.poster_path?.message}</p>
             </label>
+
             <label>
               RATING
               <input
                 type='text'
-                name='rating'
-                value={formState.rating}
-                onChange={handleChangeRating}
                 placeholder='7.8'
+                {...register('vote_average')}
               />
+              <p>{errors.vote_average?.message}</p>
             </label>
-            <label className={styles.selectListConteiner}>
+
+            <label>
+              Genre
+              <input type='text' placeholder='genres' {...register('genres')} />
+              <p>{errors.genres?.message}</p>
+            </label>
+            {/* <label className={styles.selectListConteiner}>
               genre
-              {/* <SelectList></SelectList> */}
               <div
                 className={styles.selectList}
-                // onChange={handleChangeGenre}
               >
                 {formState.genre}
                 <img
@@ -173,38 +181,34 @@ const MovieModal: React.FunctionComponent<IAddMovieFormProps> = ({
                   ))}
                 </div>
               ) : null}
-            </label>
+            </label> */}
+
             <label>
               RUNTIME
               <input
                 type='text'
-                name='runtime'
-                value={formState.runtime}
-                onChange={handleChangeRuntime}
                 placeholder='minutes'
+                {...register('runtime')}
               />
+              <p>{errors.runtime?.message}</p>
             </label>
+
             <label>
               OVERVIEW
               <textarea
-                name='overview'
                 rows={7}
-                value={formState.overview}
-                onChange={handleChangeOverview}
-                placeholder='Movie description'
+                placeholder='minutes'
+                {...register('overview')}
               />
+              <p>{errors.overview?.message}</p>
             </label>
+
             <div className={styles.buttonConyeiner}>
+              <input className={styles.resetBtn} type='reset' value='reset' />
+
               <input
-                className={styles.resetBtn}
-                type='button'
-                value='reset'
-                onClick={handleReset}
-              />
-              <input
-                onClick={mode==='add'?handleSuccessOpenModal:handleCloseModal}
                 className={styles.submitBtn}
-                type='button'
+                type='submit'
                 value='submit'
               />
             </div>

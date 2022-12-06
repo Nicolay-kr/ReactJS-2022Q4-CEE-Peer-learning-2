@@ -66,6 +66,11 @@ input[type="date" i] {
   border-radius: 4px;
   opacity: 0.8;
 }
+.form label p{
+  text-transform: lowercase;
+  padding: 0 10px;
+
+}
 
 .buttonConyeiner {
   grid-column: 1/3;

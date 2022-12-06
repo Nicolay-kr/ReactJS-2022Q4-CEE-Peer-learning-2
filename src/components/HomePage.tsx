@@ -3,7 +3,7 @@ import styles from '../styles/HomePage.module.css';
 import { MovieCard } from './MovieCard';
 import bitmap from '../assets/images/bitmap.png';
 import { Search } from './Search';
-import { MovieInfo, IMovieInfoProps } from './MovieInfo';
+import { MovieInfo } from './MovieInfo';
 import { useMovieInfoTogle } from './useMovieInfoTogle';
 
 import { useAppSelector, useAppDispatch } from '../app/hooks';
