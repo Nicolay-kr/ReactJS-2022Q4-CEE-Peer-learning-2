@@ -16,7 +16,6 @@ type HomePageProps = {
   genresRef?: HTMLDivElement;
   genres?: string[];
   onOpenMovieModal: (mode: string, movie: any) => void;
-  openDeleteMovieModal: (id: string | number) => void;
   movies?: any;
 };
 
@@ -102,7 +101,6 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
                     vote_average={movie.vote_average}
                     click={setActiveCardMovie}
                     onOpenMovieModal={props.onOpenMovieModal}
-                    openDeleteMovieModal={props.openDeleteMovieModal}
                   ></MovieCard>
                 </div>
               ))

@@ -2,15 +2,19 @@ import * as React from 'react';
 import styles from './DeleteMovieModal.module.css';
 import cross from '../../../assets/images/cross.svg';
 import { Overlay } from '../../Overlay/Overlay';
+import { useAppDispatch } from '../../../app/hooks';
+import { removeMovieByIdAsync } from '../../../app/moviesSlice';
 
 interface IDeleteMovieModalProps {
+  id:number|string
   onClose?: () => void;
 }
 
 const DeleteMovieModal: React.FunctionComponent<IDeleteMovieModalProps> = ({
-  onClose,
+  onClose,id
 }) => {
   // const [isGenreListOpen, setIsGenreListOpen] = React.useState(false);
+  const dispatch = useAppDispatch();
 
   const handleCloseModal = () => {
     if (onClose) {
@@ -18,6 +22,7 @@ const DeleteMovieModal: React.FunctionComponent<IDeleteMovieModalProps> = ({
     }
   };
   const handleConfirm = () => {
+    dispatch(removeMovieByIdAsync(id))
     if (onClose) {
       onClose();
     }

@@ -3,6 +3,7 @@ import { RootState, AppThunk } from './store';
 import { Movie } from '../types/movie';
 import { HIDE_LOADER, SHOW_LOADER } from './types';
 
+
 export interface MovieList {
   moviesList: Movie[];
   activeMovie: Movie | null;
@@ -37,6 +38,18 @@ export const getMovieByIdAsync = createAsyncThunk(
   async (id: string | number) => {
     const response = await fetch(`http://localhost:4000/movies/${id}`);
     const json = await response.json();
+    return json;
+  }
+);
+
+export const removeMovieByIdAsync = createAsyncThunk(
+  'movies/removeMovieByIdAsync',
+  async (id: string | number) => {
+    const response = await fetch(`http://localhost:4000/movies/${id}`,{
+      method: 'DELETE',
+    });
+    const json = await response.json();
+    console.log(`movie with id ${id} is removed `)
     return json;
   }
 );
@@ -142,6 +155,17 @@ export const moviesSlice = createSlice({
         state.moviesList = action.payload;
       })
       .addCase(filterMoviesAsync.rejected, (state) => {
+        state.status = 'failed';
+      });
+    builder
+      .addCase(removeMovieByIdAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(removeMovieByIdAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.moviesList = state.moviesList.filter(item=>item.id!==action.payload.id);
+      })
+      .addCase(removeMovieByIdAsync.rejected, (state) => {
         state.status = 'failed';
       });
   },
