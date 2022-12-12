@@ -44,11 +44,11 @@ const MovieModal: React.FunctionComponent<IAddMovieFormProps> = ({
     .object({
       title: yup.string().required('title is a required field'),
       vote_average: yup.number().positive().required('RATING is a required field'),
-      release_date: yup.number().required('RELEASE DATE is a required field'),
+      release_date: yup.string().required('RELEASE DATE is a required field'),
       poster_path: yup.string().required('url is a required field'),
       overview: yup.string().required('overview is a required field'),
       genres: yup.string().required('genres is a required field'),
-      runtime: yup.string().required('runtime is a required field'),
+      runtime: yup.number().integer().required('runtime is a required field'),
     })
     .required();
 
