@@ -5,10 +5,10 @@ import cross from '../assets/images/cross.svg';
 import { Movie } from '../types/movie';
 import { Modal } from './ReactPortal';
 import DeleteMovieModal from './modals/deleteMovieModal/DeleteMovieModal';
+import MovieModal from './modals/MovieModal/MovieModal';
 
 export interface IMovieCardProps extends Movie {
   click: any;
-  onOpenMovieModal: (mode: string, movie: any) => void;
 }
 
 export const MovieCard: React.FC<IMovieCardProps> = ({
@@ -25,10 +25,11 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
   genres,
   runtime,
   click,
-  onOpenMovieModal,
 }) => {
   const [burgerMenuIsOpen, setIsBurgerMenuIsOpen] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
+  const [isMovieAddModalopen, setIsMovieAddModalopen] =
+    React.useState<boolean>(false);
 
   const movie = {
     id,
@@ -56,21 +57,34 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
 
   const handleEditMovieClick = () => {
     if (movie) {
-      onOpenMovieModal('edit', movie);
+      setIsMovieAddModalopen(true);
     }
     handleClickBurgerClose();
   };
   const handleDeleteMovieClick = () => {
-    setShowModal(true)
+    setShowModal(true);
     handleClickBurgerClose();
   };
 
   return (
     <>
-      {showModal && <Modal>
-        <DeleteMovieModal id={id} onClose={()=>setShowModal(false)}></DeleteMovieModal>
-
-        </Modal>}
+      {showModal && (
+        <Modal>
+          <DeleteMovieModal
+            id={id}
+            onClose={() => setShowModal(false)}
+          ></DeleteMovieModal>
+        </Modal>
+      )}
+      {isMovieAddModalopen && (
+        <Modal>
+          <MovieModal
+            movie={movie}
+            mode='edit'
+            onClose={() => setIsMovieAddModalopen(false)}
+          ></MovieModal>
+        </Modal>
+      )}
       <div className={styles.conteiner} key={id}>
         <img
           className={styles.burger}

@@ -1,9 +1,26 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import App from './components/App';
+import { Footer } from './components/Footer';
+import HomePage from './components/HomePage';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe('Homepage', () => {
+  test('renders netflix', () => {
+
+    const { asFragment } = render(<HomePage/>);
+    // const linkElement = screen.getByText(/learn react/i);
+    const firstRender = asFragment();
+
+    // expect(screen.getByText('netflix')).toBeInTheDocument();
+    expect(firstRender).toMatchInlineSnapshot()
+  });
+
+});
+
+describe('Footer', () => {
+
+  test('renders learn react link', () => {
+    render(<Footer />);
+
+    expect(screen.getByText('netflix')).toBeInTheDocument();
+  });
 });

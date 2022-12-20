@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../styles/HomePage.module.css';
 import { MovieCard } from './MovieCard';
 import bitmap from '../assets/images/bitmap.png';
@@ -10,28 +10,28 @@ import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { getAllMoviesAsync, selectMovies } from '../app/moviesSlice';
 import SortingPannel from './sortingpannel/SortingPannel';
 import AddMovieButton from './addMovieButton/AddMovieButton';
+import { Modal } from './ReactPortal';
+import MovieModal from './modals/MovieModal/MovieModal';
 
 type HomePageProps = {
   children?: React.ReactNode;
   genresRef?: HTMLDivElement;
   genres?: string[];
-  onOpenMovieModal: (mode: string, movie: any) => void;
   movies?: any;
 };
 
 export const HomePage: React.FC<HomePageProps> = (props) => {
+  const [isMovieAddModalopen, setIsMovieAddModalopen] =
+    useState<boolean>(false);
+
   const movies = useAppSelector(selectMovies);
   const dispatch = useAppDispatch();
-  const [
-    setActiveCardMovie,
-    closeActiveCardMovie,
-    isOpenCardDescription,
-  ] = useMovieInfoTogle();
+  const [setActiveCardMovie, closeActiveCardMovie, isOpenCardDescription] =
+    useMovieInfoTogle();
 
   const handleAddMovieClick = () => {
-    props.onOpenMovieModal('add', null);
+    setIsMovieAddModalopen(true);
   };
-
 
   React.useEffect(() => {
     dispatch(getAllMoviesAsync());
@@ -39,6 +39,15 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
 
   return (
     <>
+      {isMovieAddModalopen && (
+        <Modal>
+          <MovieModal
+            movie={null}
+            mode='add'
+            onClose={() => setIsMovieAddModalopen(false)}
+          ></MovieModal>{' '}
+        </Modal>
+      )}
       <header
         className={styles.headerConteiner}
         style={{ backgroundImage: `url(${bitmap})` }}
@@ -100,7 +109,6 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
                     runtime={movie.runtime}
                     vote_average={movie.vote_average}
                     click={setActiveCardMovie}
-                    onOpenMovieModal={props.onOpenMovieModal}
                   ></MovieCard>
                 </div>
               ))
