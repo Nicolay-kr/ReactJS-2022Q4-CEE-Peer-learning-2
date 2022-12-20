@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import styles from '../styles/HomePage.module.css';
-import { MovieCard } from './MovieCard';
-import bitmap from '../assets/images/bitmap.png';
-import { Search } from './Search';
-import { MovieInfo } from './MovieInfo';
-import { useMovieInfoTogle } from './useMovieInfoTogle';
+import styles from './HomePage.module.css';
+import { MovieCard } from '../MovieCard/MovieCard';
+import bitmap from '../../assets/images/bitmap.png';
+import { Search } from '../Search/Search';
+import { MovieInfo } from '../MovieInfo/MovieInfo';
+import { useMovieInfoTogle } from '../hooks/useMovieInfoTogle';
 
-import { useAppSelector, useAppDispatch } from '../app/hooks';
-import { getAllMoviesAsync, selectMovies } from '../app/moviesSlice';
-import SortingPannel from './sortingpannel/SortingPannel';
-import AddMovieButton from './addMovieButton/AddMovieButton';
-import { Modal } from './ReactPortal';
-import MovieModal from './modals/MovieModal/MovieModal';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { getAllMoviesAsync, selectMovies } from '../../app/moviesSlice';
+import SortingPannel from '../Sortingpannel/SortingPannel';
+import AddMovieButton from '../AddMovieButton/AddMovieButton';
+import { Modal } from '../ReactPortal';
+import MovieModal from '../modals/MovieModal/MovieModal';
 
 type HomePageProps = {
   children?: React.ReactNode;

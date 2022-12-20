@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Footer } from './components/Footer';
-import HomePage from './components/HomePage';
+import { Footer } from './components/Footer/Footer';
+import HomePage from './components/HomePage/HomePage';
 
 describe('Homepage', () => {
   test('renders netflix', () => {

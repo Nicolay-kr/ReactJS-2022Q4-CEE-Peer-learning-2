@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/Search.module.css';
+import styles from './Search.module.css';
 
 export const Search:React.FC = () => {
   const [value, setValue] = React.useState('');

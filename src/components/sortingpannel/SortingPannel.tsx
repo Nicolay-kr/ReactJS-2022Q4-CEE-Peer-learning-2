@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/HomePage.module.css';
+import styles from '../HomePage/HomePage.module.css';
 import arrow from '../../assets/images/arrow.svg';
 import { sortingMovies } from '../../utills/sorting';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';

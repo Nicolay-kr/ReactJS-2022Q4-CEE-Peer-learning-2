@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styles from '../styles/MovieInfo.module.css';
-import {Movie} from '../types/movie'
+import styles from './MovieInfo.module.css';
+import {Movie} from '../../types/movie'
 
 export interface IMovieInfoProps extends Movie {
 }

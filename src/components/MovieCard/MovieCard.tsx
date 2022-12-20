@@ -1,11 +1,11 @@
 import * as React from 'react';
-import styles from '../styles/MovieCard.module.css';
-import burger from '../assets/images/burger.svg';
-import cross from '../assets/images/cross.svg';
-import { Movie } from '../types/movie';
-import { Modal } from './ReactPortal';
-import DeleteMovieModal from './modals/deleteMovieModal/DeleteMovieModal';
-import MovieModal from './modals/MovieModal/MovieModal';
+import styles from './MovieCard.module.css';
+import burger from '../../assets/images/burger.svg';
+import cross from '../../assets/images/cross.svg';
+import { Movie } from '../../types/movie';
+import { Modal } from '../ReactPortal';
+import DeleteMovieModal from '../modals/DeleteMovieModal/DeleteMovieModal';
+import MovieModal from '../modals/MovieModal/MovieModal';
 
 export interface IMovieCardProps extends Movie {
   click: any;
