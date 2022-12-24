@@ -1,0 +1,42 @@
+.conteiner {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: max(50%, 800px);
+  padding: 3.1vw;
+  background-color: #232323;
+  box-shadow: 0px 0px 2px rgb(0 0 0 / 10%), 0px 2px 10px rgb(0 0 0 / 7%), 0px 10px 20px rgb(0 0 0 / 5%), 0px 10px 50px rgb(0 0 0 / 5%);
+}
+
+.title {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 300;
+  text-align: left;
+  color: #ffffff;
+}
+
+.subtitle {
+
+  font-size: 20px;
+  font-weight: 400;
+  margin-top: 36px;
+  color: #ffffff;
+  text-align: left;
+
+}
+
+.submitBtn {
+  width: 180px;
+  height: 60px;
+  background: #F65261;
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+  margin-left: auto;
+  margin-top: 52px;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+}
