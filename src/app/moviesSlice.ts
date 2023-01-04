@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from './store';
 import { Movie } from '../types/movie';
 import { HIDE_LOADER, SHOW_LOADER } from './types';
+import {filterMoviesAsync} from './slices/filterMoviesAsync';
+
 
 
 export interface MovieList {
@@ -65,16 +67,16 @@ export const sortMoviesAsync = createAsyncThunk(
   }
 );
 
-export const filterMoviesAsync = createAsyncThunk(
-  'movies/filterMoviesAsync',
-  async (genre: string) => {
-    const response = await fetch(
-      `http://localhost:4000/movies?searchBy=genres&filter=${genre}&limit=9`
-    );
-    const json = await response.json();
-    return json.data;
-  }
-);
+// export const filterMoviesAsync = createAsyncThunk(
+//   'movies/filterMoviesAsync',
+//   async (genre: string) => {
+//     const response = await fetch(
+//       `http://localhost:4000/movies?searchBy=genres&filter=${genre}&limit=9`
+//     );
+//     const json = await response.json();
+//     return json.data;
+//   }
+// );
 
 export const moviesSlice = createSlice({
   name: 'movies',

@@ -1,16 +1,15 @@
 import React from 'react';
 import styles from '../HomePage/HomePage.module.css';
 import arrow from '../../assets/images/arrow.svg';
-import { sortingMovies } from '../../utills/sorting';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { filterMoviesAsync, getAllMoviesAsync, selectMovies, sortMoviesAsync } from '../../app/moviesSlice';
+import { useAppDispatch } from '../../app/hooks';
+import { getAllMoviesAsync, sortMoviesAsync } from '../../app/moviesSlice';
+import { filterMoviesAsync} from '../../app/slices/filterMoviesAsync';
 
 type HomePageProps = {
   movies?: any;
 };
 
-export const SortingPannel: React.FC<HomePageProps> = ({movies}) => {
-  const moviesList = useAppSelector(selectMovies);
+export const SortingPannel: React.FC<HomePageProps> = () => {
   const dispatch = useAppDispatch();
 
   const [activeGenre, setActiveGenre] = React.useState<number>(0);
@@ -46,6 +45,8 @@ export const SortingPannel: React.FC<HomePageProps> = ({movies}) => {
   };
 
   const handleSorting = (e) => {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
     let sortBy = e.target.textContent;
     if(sortBy==='year'){
       sortBy = 'release_date'
@@ -53,12 +54,12 @@ export const SortingPannel: React.FC<HomePageProps> = ({movies}) => {
     else if(sortBy==='rating'){
       sortBy='vote_average'
     }
-    console.log(sortBy)
+
+    
     dispatch(sortMoviesAsync(sortBy))
 
     // const sortMoviesArr = sortingMovies(movies, sortBy);
-    // setSortBy(sortBy);
-    // setMovies(sortMoviesArr);
+    setSortBy(e.target.textContent)
     handleSortingClose();
   };
 
@@ -83,9 +84,9 @@ export const SortingPannel: React.FC<HomePageProps> = ({movies}) => {
   return (
     <div className={styles.genresConteiner} ref={genresConteinerRef}>
       <div className={styles.firstRow}>
-        <div className={styles.genres} ref={genresRef}>
+        <div data-testid='genresConteiner'  className={styles.genres} ref={genresRef} onClick={handleChangeActiveGenre}>
           {genres.map((gener, index) => (
-            <span id={`${index}`} key={gener} onClick={handleChangeActiveGenre}>
+            <span data-testid={gener} id={`${index}`} key={gener} >
               {gener}
             </span>
           ))}
@@ -93,14 +94,14 @@ export const SortingPannel: React.FC<HomePageProps> = ({movies}) => {
 
         <div className={styles.ordering}>
           <span style={{ opacity: '0.6' }}>Sort by</span>
-          <div className={styles.orderListTitle}>
-            <span onClick={handleSortingOpen}>
+          <div data-testid='sortingMenu' className={styles.orderListTitle} onClick={handleSortingOpen}>
+            <span >
               {sortBy} <img src={arrow} alt='arrow' />
             </span>
             {isSortingMenuOpen ? (
-              <div className={styles.sortingMenuConteiner}>
-                <p onClick={handleSorting}>year</p>
-                <p onClick={handleSorting}>rating</p>
+              <div data-testid='sortingMenuConteiner' className={styles.sortingMenuConteiner}>
+                <p id='year' onClick={handleSorting}>year</p>
+                <p  id='rating' onClick={handleSorting}>raiting</p>
               </div>
             ) : null}
           </div>
