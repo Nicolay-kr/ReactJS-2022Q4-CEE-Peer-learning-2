@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Search.module.css';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { searchMoviesByTitleAsync } from '../../app/moviesSlice';
+import { searchMoviesByTitleAsync, sortMoviesAsync } from '../../app/moviesSlice';
 import { useAppDispatch } from '../../app/hooks';
 
 type FormData = {
@@ -30,6 +30,9 @@ export const Search:React.FC = () => {
     if(data){
       dispatch(searchMoviesByTitleAsync(data.searchText));
       navigate(`/search/${data.searchText}?${searchParams}`);
+    }else{
+      dispatch(sortMoviesAsync('vote_average'))
+      navigate(`/search`);
     }
   });
 
