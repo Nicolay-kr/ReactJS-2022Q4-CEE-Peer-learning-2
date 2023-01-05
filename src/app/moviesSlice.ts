@@ -3,7 +3,6 @@ import { RootState, AppThunk } from './store';
 import { Movie } from '../types/movie';
 import { HIDE_LOADER, SHOW_LOADER } from './types';
 
-
 export interface MovieList {
   moviesList: Movie[];
   activeMovie: Movie | null;
@@ -42,14 +41,26 @@ export const getMovieByIdAsync = createAsyncThunk(
   }
 );
 
+export const searchMoviesByTitleAsync = createAsyncThunk(
+  'movies/searchMoviesByTitleAsync',
+  async (title: string) => {
+    console.log(title);
+    const response = await fetch(
+      `http://localhost:4000/movies?search=${title.toLowerCase()}&searchBy=title`
+    );
+    const json = await response.json();
+    return json;
+  }
+);
+
 export const removeMovieByIdAsync = createAsyncThunk(
   'movies/removeMovieByIdAsync',
   async (id: string | number) => {
-    const response = await fetch(`http://localhost:4000/movies/${id}`,{
+    const response = await fetch(`http://localhost:4000/movies/${id}`, {
       method: 'DELETE',
     });
     const json = await response.json();
-    console.log(`movie with id ${id} is removed `)
+    console.log(`movie with id ${id} is removed `);
     return json;
   }
 );
@@ -163,9 +174,22 @@ export const moviesSlice = createSlice({
       })
       .addCase(removeMovieByIdAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.moviesList = state.moviesList.filter(item=>item.id!==action.payload.id);
+        state.moviesList = state.moviesList.filter(
+          (item) => item.id !== action.payload.id
+        );
       })
       .addCase(removeMovieByIdAsync.rejected, (state) => {
+        state.status = 'failed';
+      });
+    builder
+      .addCase(searchMoviesByTitleAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(searchMoviesByTitleAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.moviesList = action.payload.data;
+      })
+      .addCase(searchMoviesByTitleAsync.rejected, (state) => {
         state.status = 'failed';
       });
   },

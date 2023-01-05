@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from './Search.module.css';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { searchMoviesByTitleAsync } from '../../app/moviesSlice';
+import { useAppDispatch } from '../../app/hooks';
 
 type FormData = {
   searchText: string;
@@ -12,8 +14,10 @@ type RouterParams = {
 };
 
 export const Search:React.FC = () => {
+  const dispatch = useAppDispatch();
 
   const params = useParams<RouterParams>();
+  const [searchParams] = useSearchParams();
 
   const { handleSubmit,register } = useForm<FormData>({
     defaultValues: {
@@ -23,7 +27,10 @@ export const Search:React.FC = () => {
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit((data) => {
-    navigate(`/search/${data.searchText}`);
+    if(data){
+      dispatch(searchMoviesByTitleAsync(data.searchText));
+      navigate(`/search/${data.searchText}?${searchParams}`);
+    }
   });
 
   return (

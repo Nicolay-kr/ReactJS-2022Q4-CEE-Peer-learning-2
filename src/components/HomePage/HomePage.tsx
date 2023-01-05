@@ -25,9 +25,10 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
   const [isMovieAddModalopen, setIsMovieAddModalopen] =
     useState<boolean>(false);
 
-  const movies = useAppSelector(selectMovies);
+  let  movies = useAppSelector(selectMovies);
   // console.log(searchParams.get('movie'))
   const dispatch = useAppDispatch();
+  console.log('movies',movies)
   const [setActiveCardMovie, closeActiveCardMovie, isOpenCardDescription, activeMovie] =
     useMovieInfoTogle();
 
