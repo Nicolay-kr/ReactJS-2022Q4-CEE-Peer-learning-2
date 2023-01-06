@@ -5,14 +5,12 @@ import bitmap from '../../assets/images/bitmap.png';
 import { Search } from '../Search/Search';
 import { MovieInfo } from '../MovieInfo/MovieInfo';
 import { useMovieInfoTogle } from '../hooks/useMovieInfoTogle';
-
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getAllMoviesAsync, selectMovies } from '../../app/moviesSlice';
+import { selectMovies } from '../../app/moviesSlice';
 import SortingPannel from '../Sortingpannel/SortingPannel';
 import AddMovieButton from '../AddMovieButton/AddMovieButton';
 import { Modal } from '../ReactPortal';
 import MovieModal from '../modals/MovieModal/MovieModal';
-import { useSearchParams } from 'react-router-dom';
 
 type HomePageProps = {
   children?: React.ReactNode;
@@ -26,19 +24,12 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
     useState<boolean>(false);
 
   let  movies = useAppSelector(selectMovies);
-  // console.log(searchParams.get('movie'))
-  const dispatch = useAppDispatch();
-  console.log('movies',movies)
   const [setActiveCardMovie, closeActiveCardMovie, isOpenCardDescription, activeMovie] =
     useMovieInfoTogle();
 
   const handleAddMovieClick = () => {
     setIsMovieAddModalopen(true);
   };
-
-  React.useEffect(() => {
-    dispatch(getAllMoviesAsync());
-  }, []);
 
   return (
     <>

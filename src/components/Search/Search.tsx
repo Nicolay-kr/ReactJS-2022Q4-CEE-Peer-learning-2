@@ -2,7 +2,10 @@ import React from 'react';
 import styles from './Search.module.css';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { searchMoviesByTitleAsync, sortMoviesAsync } from '../../app/moviesSlice';
+import {
+  filterAllMoviesAsync,
+  searchMoviesByTitleAsync,
+} from '../../app/moviesSlice';
 import { useAppDispatch } from '../../app/hooks';
 
 type FormData = {
@@ -12,14 +15,15 @@ type FormData = {
 type RouterParams = {
   searchQuery?: string;
 };
+const sortingMap = {'year':'release_date','raiting':'vote_average'}
 
-export const Search:React.FC = () => {
+export const Search: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const params = useParams<RouterParams>();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { handleSubmit,register } = useForm<FormData>({
+  const { handleSubmit, register } = useForm<FormData>({
     defaultValues: {
       searchText: params.searchQuery,
     },
@@ -27,12 +31,22 @@ export const Search:React.FC = () => {
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit((data) => {
-    if(data){
-      dispatch(searchMoviesByTitleAsync(data.searchText));
+    const sortByQuery = searchParams.get('sortBy');
+    const genreQuery = searchParams.get('genre');
+    if (data && sortByQuery) {
+      dispatch(
+        searchMoviesByTitleAsync(
+          `${data.searchText},${sortingMap[sortByQuery]},${genreQuery}`
+        )
+      );
       navigate(`/search/${data.searchText}?${searchParams}`);
-    }else{
-      dispatch(sortMoviesAsync('vote_average'))
+    } else {
+      dispatch(filterAllMoviesAsync('vote_average,all'));
+      // dispatch(sortMoviesAsync('vote_average'))
       navigate(`/search`);
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.set('sortBy', 'raiting');
+      setSearchParams(newSearchParams);
     }
   });
 
@@ -52,4 +66,4 @@ export const Search:React.FC = () => {
       </form>
     </div>
   );
-}
+};
