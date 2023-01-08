@@ -38,7 +38,7 @@ describe('Search Component', () => {
 
     const button = screen.getByText('Search');
 
-    act(async() => await userEvent.click(button));
+    await act(async() => await userEvent.click(button));
 
     expect(mockedNavigate).toHaveBeenCalled();
   });
