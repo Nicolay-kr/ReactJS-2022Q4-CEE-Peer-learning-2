@@ -5,9 +5,8 @@ import bitmap from '../../assets/images/bitmap.png';
 import { Search } from '../Search/Search';
 import { MovieInfo } from '../MovieInfo/MovieInfo';
 import { useMovieInfoTogle } from '../hooks/useMovieInfoTogle';
-
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getAllMoviesAsync, selectMovies } from '../../app/moviesSlice';
+import { selectMovies } from '../../app/moviesSlice';
 import SortingPannel from '../Sortingpannel/SortingPannel';
 import AddMovieButton from '../AddMovieButton/AddMovieButton';
 import { Modal } from '../ReactPortal';
@@ -24,18 +23,13 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
   const [isMovieAddModalopen, setIsMovieAddModalopen] =
     useState<boolean>(false);
 
-  const movies = useAppSelector(selectMovies);
-  const dispatch = useAppDispatch();
-  const [setActiveCardMovie, closeActiveCardMovie, isOpenCardDescription] =
+  let  movies = useAppSelector(selectMovies);
+  const [setActiveCardMovie, closeActiveCardMovie, isOpenCardDescription, activeMovie] =
     useMovieInfoTogle();
 
   const handleAddMovieClick = () => {
     setIsMovieAddModalopen(true);
   };
-
-  React.useEffect(() => {
-    dispatch(getAllMoviesAsync());
-  }, []);
 
   return (
     <>
@@ -64,20 +58,20 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
             ></AddMovieButton>
           </div>
 
-          {isOpenCardDescription && movies.activeMovie ? (
+          {isOpenCardDescription && activeMovie ? (
             <MovieInfo
-              id={movies.activeMovie.id}
-              title={movies.activeMovie.title}
-              tagline={movies.activeMovie.tagline}
-              vote_count={movies.activeMovie.vote_count}
-              budget={movies.activeMovie.budget}
-              release_date={movies.activeMovie.release_date}
-              revenue={movies.activeMovie.revenue}
-              genres={movies.activeMovie.genres}
-              poster_path={movies.activeMovie.poster_path}
-              overview={movies.activeMovie.overview}
-              runtime={movies.activeMovie.runtime}
-              vote_average={movies.activeMovie.vote_average}
+              id={activeMovie.id}
+              title={activeMovie.title}
+              tagline={activeMovie.tagline}
+              vote_count={activeMovie.vote_count}
+              budget={activeMovie.budget}
+              release_date={activeMovie.release_date}
+              revenue={activeMovie.revenue}
+              genres={activeMovie.genres}
+              poster_path={activeMovie.poster_path}
+              overview={activeMovie.overview}
+              runtime={activeMovie.runtime}
+              vote_average={activeMovie.vote_average}
             ></MovieInfo>
           ) : (
             <Search />

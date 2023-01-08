@@ -6,6 +6,7 @@ import { Movie } from '../../types/movie';
 import { Modal } from '../ReactPortal';
 import DeleteMovieModal from '../modals/DeleteMovieModal/DeleteMovieModal';
 import MovieModal from '../modals/MovieModal/MovieModal';
+import { useSearchParams } from 'react-router-dom';
 
 export interface IMovieCardProps extends Movie {
   click: any;
@@ -30,6 +31,7 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
   const [showModal, setShowModal] = React.useState(false);
   const [isMovieAddModalopen, setIsMovieAddModalopen] =
     React.useState<boolean>(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const movie = {
     id,
@@ -52,6 +54,9 @@ export const MovieCard: React.FC<IMovieCardProps> = ({
   };
 
   const handleClick = () => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('movie', `${id}`);
+    setSearchParams(newSearchParams);
     click(id);
   };
 

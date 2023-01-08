@@ -5,7 +5,6 @@ import { HIDE_LOADER, SHOW_LOADER } from './types';
 import {filterMoviesAsync} from './slices/filterMoviesAsync';
 
 
-
 export interface MovieList {
   moviesList: Movie[];
   activeMovie: Movie | null;
@@ -44,39 +43,56 @@ export const getMovieByIdAsync = createAsyncThunk(
   }
 );
 
-export const removeMovieByIdAsync = createAsyncThunk(
-  'movies/removeMovieByIdAsync',
-  async (id: string | number) => {
-    const response = await fetch(`http://localhost:4000/movies/${id}`,{
-      method: 'DELETE',
-    });
+export const searchMoviesByTitleAsync = createAsyncThunk(
+  'movies/searchMoviesByTitleAsync',
+  async (param: string) => {
+    const [title, sortBy, genre] = param.split(',');
+    let response;
+    if (genre === 'all') {
+      response = await fetch(
+        `http://localhost:4000/movies?sortBy=${sortBy}&sortOrder=desc&search=${title.toLowerCase()}&searchBy=title&limit=9`
+      );
+    } else {
+      response = await fetch(
+        `http://localhost:4000/movies?sortBy=${sortBy}&sortOrder=desc&search=${title.toLowerCase()}&searchBy=title&filter=${genre}&limit=9`
+      );
+    }
     const json = await response.json();
-    console.log(`movie with id ${id} is removed `)
     return json;
   }
 );
 
-export const sortMoviesAsync = createAsyncThunk(
-  'movies/sortMoviesAsync',
-  async (sortBy: string) => {
-    const response = await fetch(
-      `http://localhost:4000/movies?sortBy=${sortBy}&sortOrder=desc&limit=9`
-    );
+export const removeMovieByIdAsync = createAsyncThunk(
+  'movies/removeMovieByIdAsync',
+  async (id: string | number) => {
+    const response = await fetch(`http://localhost:4000/movies/${id}`, {
+      method: 'DELETE',
+    });
+    const json = await response.json();
+    console.log(`movie with id ${id} is removed `);
+    return json;
+  }
+);
+
+export const filterAllMoviesAsync = createAsyncThunk(
+  'movies/filterAllMoviesAsync',
+  async (param: string) => {
+    const [sortBy, genre] = param.split(',');
+    let response;
+    if (genre === 'all') {
+      response = await fetch(
+        `http://localhost:4000/movies?sortBy=${sortBy}&sortOrder=desc&limit=9`
+      );
+    } else {
+      response = await fetch(
+        `http://localhost:4000/movies?sortBy=${sortBy}&sortOrder=desc&filter=${genre}&limit=9`
+      );
+    }
+
     const json = await response.json();
     return json.data;
   }
 );
-
-// export const filterMoviesAsync = createAsyncThunk(
-//   'movies/filterMoviesAsync',
-//   async (genre: string) => {
-//     const response = await fetch(
-//       `http://localhost:4000/movies?searchBy=genres&filter=${genre}&limit=9`
-//     );
-//     const json = await response.json();
-//     return json.data;
-//   }
-// );
 
 export const moviesSlice = createSlice({
   name: 'movies',
@@ -136,38 +152,39 @@ export const moviesSlice = createSlice({
       .addCase(getMovieByIdAsync.rejected, (state) => {
         state.status = 'failed';
       });
-
-    builder
-      .addCase(sortMoviesAsync.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(sortMoviesAsync.fulfilled, (state, action) => {
-        state.status = 'idle';
-        state.moviesList = action.payload;
-      })
-      .addCase(sortMoviesAsync.rejected, (state) => {
-        state.status = 'failed';
-      });
-    builder
-      .addCase(filterMoviesAsync.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(filterMoviesAsync.fulfilled, (state, action) => {
-        state.status = 'idle';
-        state.moviesList = action.payload;
-      })
-      .addCase(filterMoviesAsync.rejected, (state) => {
-        state.status = 'failed';
-      });
     builder
       .addCase(removeMovieByIdAsync.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(removeMovieByIdAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.moviesList = state.moviesList.filter(item=>item.id!==action.payload.id);
+        state.moviesList = state.moviesList.filter(
+          (item) => item.id !== action.payload.id
+        );
       })
       .addCase(removeMovieByIdAsync.rejected, (state) => {
+        state.status = 'failed';
+      });
+    builder
+      .addCase(searchMoviesByTitleAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(searchMoviesByTitleAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.moviesList = action.payload.data;
+      })
+      .addCase(searchMoviesByTitleAsync.rejected, (state) => {
+        state.status = 'failed';
+      });
+    builder
+      .addCase(filterAllMoviesAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(filterAllMoviesAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.moviesList = action.payload;
+      })
+      .addCase(filterAllMoviesAsync.rejected, (state) => {
         state.status = 'failed';
       });
   },
