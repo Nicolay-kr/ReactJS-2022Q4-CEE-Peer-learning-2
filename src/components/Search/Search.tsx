@@ -30,7 +30,9 @@ export const Search: React.FC = () => {
   });
   const navigate = useNavigate();
 
+
   const onSubmit = handleSubmit((data) => {
+
     const sortByQuery = searchParams.get('sortBy');
     const genreQuery = searchParams.get('genre');
     if (data && sortByQuery) {
@@ -41,9 +43,8 @@ export const Search: React.FC = () => {
       );
       navigate(`/search/${data.searchText}?${searchParams}`);
     } else {
-      dispatch(filterAllMoviesAsync('vote_average,all'));
-      // dispatch(sortMoviesAsync('vote_average'))
       navigate(`/search`);
+      dispatch(filterAllMoviesAsync('vote_average,all'));
       const newSearchParams = new URLSearchParams(searchParams);
       newSearchParams.set('sortBy', 'raiting');
       setSearchParams(newSearchParams);
