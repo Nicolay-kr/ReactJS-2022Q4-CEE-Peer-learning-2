@@ -1,0 +1,152 @@
+.headerConteiner {
+  width: 100%;
+  padding: 20px 60px;
+  min-height: 396px;
+  mix-blend-mode: normal;
+  background-repeat: no-repeat;
+  background-size: cover;
+  backdrop-filter: blur(4px);
+  background-color: black;
+}
+
+.headerContent {
+  width: 100%;
+  height: 100%;
+  /* background-color: black; */
+}
+
+.name {
+  font-size: 20px;
+  font-weight: 400;
+  color: #F65261;
+}
+
+.addMovieButton {
+  font-family: Montserrat;
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  background: rgba(96, 96, 96, 0.68);
+  border-style: hidden;
+  border-radius: 4px;
+  color: #F65261;
+  border-color: rgba(96, 96, 96, 0.68);
+  cursor: pointer;
+}
+
+.contentAddMovieButton {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mainConteiner {
+  width: 100%;
+  margin-top: 10px;
+  padding: 20px 60px;
+  background-color: #232323;
+  ;
+}
+
+.genresConteiner {
+  display: grid;
+  grid-template-rows: auto auto;
+  row-gap: 30px;
+}
+
+.genres,
+.ordering {
+  display: flex;
+  gap: 30px;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.firstRow,
+.secondRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.line {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  grid-column: 1 / 11;
+  /* background-color: ; */
+}
+
+.firstline {
+  height: 2px;
+  background: #424242;
+}
+
+.secondline {
+  height: 1px;
+}
+
+.thirdLine {
+  height: 1px;
+  background: #080707;
+}
+
+.secondRow {
+  position: relative;
+}
+
+.activeLine {
+  height: 100%;
+  background: #F65261;
+  transition: 0.3s;
+}
+
+.foundMovieText {
+  color: #ffffff;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: left;
+  margin: 24px 0px;
+}
+
+.movieConteiner {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 50px;
+  row-gap: 50px;
+}
+
+.movie {
+  height: 500px;
+  border: 1px solid #fff;
+}
+
+.orderListTitle {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.sortingMenuConteiner{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 100%;
+  background: #232323;
+  z-index: 2;
+  border-radius: 4px;
+  padding: 20px;
+
+}
+
+.orderListTitle img {
+  margin-left: 12px;
+}
+.searchIcon{
+  cursor: pointer;
+}
