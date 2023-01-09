@@ -34,15 +34,6 @@ export const getAllMoviesAsync = createAsyncThunk(
   }
 );
 
-export const getMovieByIdAsync = createAsyncThunk(
-  'movies/getMovieByIdAsync',
-  async (id: string | number) => {
-    const response = await fetch(`http://localhost:4000/movies/${id}`);
-    const json = await response.json();
-    return json;
-  }
-);
-
 export const searchMoviesByTitleAsync = createAsyncThunk(
   'movies/searchMoviesByTitleAsync',
   async (param: string) => {
@@ -138,18 +129,6 @@ export const moviesSlice = createSlice({
         state.moviesList = action.payload;
       })
       .addCase(getAllMoviesAsync.rejected, (state) => {
-        state.status = 'failed';
-      });
-
-    builder
-      .addCase(getMovieByIdAsync.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(getMovieByIdAsync.fulfilled, (state, action) => {
-        state.status = 'idle';
-        state.activeMovie = action.payload;
-      })
-      .addCase(getMovieByIdAsync.rejected, (state) => {
         state.status = 'failed';
       });
     builder

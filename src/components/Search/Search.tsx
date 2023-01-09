@@ -35,13 +35,14 @@ export const Search: React.FC = () => {
 
     const sortByQuery = searchParams.get('sortBy');
     const genreQuery = searchParams.get('genre');
-    if (data && sortByQuery) {
-      dispatch(
-        searchMoviesByTitleAsync(
-          `${data.searchText},${sortingMap[sortByQuery]},${genreQuery}`
-        )
-      );
-      navigate(`/search/${data.searchText}?${searchParams}`);
+    if (data) {
+        dispatch(
+          searchMoviesByTitleAsync(
+            `${data.searchText},${sortingMap[sortByQuery?sortByQuery:'raiting']},${genreQuery?genreQuery:'all'}`
+          )
+        );
+ 
+      navigate(`/search/${data.searchText}${searchParams? '?' + searchParams:''}`);
     } else {
       navigate(`/search`);
       dispatch(filterAllMoviesAsync('vote_average,all'));

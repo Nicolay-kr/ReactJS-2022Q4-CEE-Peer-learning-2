@@ -27,7 +27,6 @@ describe('Search Component', () => {
   });
 
   it('should call useNavigate when submit button was click', async () => {
-    const value = 'testValue';
     render(
       <MemoryRouter>
         <Provider store={store}>
@@ -41,5 +40,24 @@ describe('Search Component', () => {
     await act(async() => await userEvent.click(button));
 
     expect(mockedNavigate).toHaveBeenCalled();
+  });
+
+  it('should call with valid search query', async () => {
+    const value = 'testValue';
+    render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <Search />
+        </Provider>
+      </MemoryRouter>
+    );
+
+    const input = screen.getByPlaceholderText('What do you want to watch?');
+    const button = screen.getByText('Search');
+
+    fireEvent.change(input, { target: { value } });
+    await act(async() => await userEvent.click(button));
+
+    expect(mockedNavigate).toHaveBeenCalledWith(`/search/${value}?`);
   });
 });

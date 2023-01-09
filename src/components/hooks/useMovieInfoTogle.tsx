@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
-import { getMovieByIdAsync } from '../../app/moviesSlice';
+import { getMovieByIdAsync } from '../../app/activeMovieSlice';
 
 
 export function useMovieInfoTogle() {
